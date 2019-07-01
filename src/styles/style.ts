@@ -1,6 +1,7 @@
 import { createTypeStyle } from 'typestyle';
 import { is, IMap } from 'anux-common';
 import { NestedCSSSelectors, NestedCSSProperties } from 'typestyle/lib/types';
+import { setupPage, normalize } from 'csstips';
 
 type ConvertToStyleObjects<T> = {
   [P in keyof T]: IStyleObject;
@@ -9,6 +10,9 @@ type ConvertToStyleObjects<T> = {
 interface IStyleObject extends Omit<NestedCSSProperties, '$nest'>, IMap {
   $nest?: ConvertToStyleObjects<NestedCSSSelectors>;
 }
+
+const styleTag = document.createElement('style');
+styleTag.setAttribute('data-owner', 'anux-react-ui');
 
 function ensureStyleTagIsLast() {
   document.head.appendChild(styleTag);
@@ -24,10 +28,16 @@ function ensureStyleTagIsLast() {
   observer.observe(document.head, { childList: true, attributes: false, characterData: false, subtree: false });
 }
 
-const styleTag = document.createElement('style');
-styleTag.setAttribute('data-owner', 'anux-react-ui');
 ensureStyleTagIsLast();
 const instance = createTypeStyle(styleTag);
+
+normalize();
+setupPage('app');
+instance.cssRule('app', {
+  display: 'flex',
+  flex: 'auto',
+  flexDirection: 'column',
+});
 
 export function style(...objects: IStyleObject[]): string {
   if (objects.length === 0) { return ''; }

@@ -1,9 +1,9 @@
-import { createHarness } from 'anux-package';
-import { NotificationsHost } from './notifications';
-import { style, flex, position } from '../styles';
-import { Button, Select, MenuItem, InputLabel, FormControl, Switch, FormControlLabel } from '@material-ui/core';
-import { useState, ChangeEvent, FunctionComponent } from 'react';
+import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
+import { ChangeEvent, FunctionComponent, useState } from 'react';
 import { useBound } from 'anux-react-utils';
+import { flex, position, style } from '../styles';
+import { createHarness } from '../../tests/harness/createHarness';
+import { NotificationsHost } from './notifications';
 import { NotificationModes, Variants } from './models';
 import { useNotifications } from './useNotifications';
 
@@ -16,7 +16,7 @@ const styles = {
 
     $nest: {
       '&::before': {
-        content: `'top-level'`,
+        content: '\'top-level\'',
         ...position.absolute.full,
         top: '-20px',
         textAlign: 'center',
@@ -32,7 +32,7 @@ const styles = {
 
     $nest: {
       '&::before': {
-        content: `'middle-level'`,
+        content: '\'middle-level\'',
         ...position.absolute.full,
         top: '-20px',
         textAlign: 'center',
@@ -48,7 +48,7 @@ const styles = {
 
     $nest: {
       '&::before': {
-        content: `'bottom-level'`,
+        content: '\'bottom-level\'',
         ...position.absolute.full,
         top: '-20px',
         textAlign: 'center',

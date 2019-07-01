@@ -1,9 +1,8 @@
-import { createHarness } from 'anux-package';
-import { Button } from './button';
-import { style, flex } from '../styles';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useBound } from 'anux-react-utils';
-import { MenuItem } from '@material-ui/core';
+import { style, flex } from '../styles';
+import { createHarness } from '../../tests/harness/createHarness';
+import { Button } from './button';
 
 const styles = {
 
@@ -152,20 +151,20 @@ export const buttonHarness = createHarness({ name: 'Buttons' }, () => {
         icon={<DeleteIcon />}
         appearance="filled"
         variant="primary"
-        items={[
-          <MenuItem key="1" onClick={handleClick}>Choice 1</MenuItem>,
-          <MenuItem key="2" onClick={handleClick}>Choice 2</MenuItem>,
-        ]}
+        // items={[
+        //   <MenuItem key="1" onClick={handleClick}>Choice 1</MenuItem>,
+        //   <MenuItem key="2" onClick={handleClick}>Choice 2</MenuItem>,
+        // ]}
         onClick={handleClick}
       >Choices!</Button>
       <Button
         icon={<DeleteIcon />}
         appearance="filled"
         variant="primary"
-        items={[
-          <MenuItem key="1" onClick={handleClick}>Choice 1</MenuItem>,
-          <MenuItem key="2" onClick={handleClick}>Choice 2</MenuItem>,
-        ]}
+        // items={[
+        //   <MenuItem key="1" onClick={handleClick}>Choice 1</MenuItem>,
+        //   <MenuItem key="2" onClick={handleClick}>Choice 2</MenuItem>,
+        // ]}
         onClick={handleClick}
       />
     </div>

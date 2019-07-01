@@ -2,20 +2,17 @@ import 'anux-common';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import * as exportedHarnesses from '../../harnesses';
-import { getHarnessDetails, IHarnessDetails } from '../dist';
-// import '../../src';
-// import '../../src/icons';
-// import '../environment';
-// import './harness.pug';
-import './harness.scss';
+import { IHarnessDetails, getHarnessDetails } from './createHarness';
+import styles from './styles';
 
 interface IHarness extends IHarnessDetails {
-  type: new (...args: any[]) => React.PureComponent;
+  type: new (...args: unknown[]) => React.PureComponent;
 }
 
 const harnesses: IHarness[] = [];
 Object.keys(exportedHarnesses)
   .forEach(key => {
+    // eslint-disable-next-line import/namespace
     const harness = exportedHarnesses[key];
     if (typeof (harness) === 'function') {
       const details = getHarnessDetails(harness);
@@ -28,13 +25,13 @@ Object.keys(exportedHarnesses)
     }
   });
 
-function loadHarness(harness: IHarness) {
+function loadHarness(harness: IHarness): void {
   document.location.href = `?harness=${harness.name}`;
 }
 
-function renderHarnessSelector(harness: IHarness, index: number) {
+function renderHarnessSelector(harness: IHarness, index: number): JSX.Element {
   return (
-    <div className="harness-selector" key={index} onClick={() => loadHarness(harness)}>
+    <div className={styles.selector} key={index} onClick={() => loadHarness(harness)}>
       {harness.name}
     </div>
   );
@@ -53,13 +50,13 @@ window.onload = () => {
     );
   } else {
     render = (
-      <div className="harnesses">
+      <div className={styles.root}>
         {harnesses.map(renderHarnessSelector)}
       </div>
     );
   }
 
-  ReactDOM.render(render, document.querySelectorAll('page')[0],
+  ReactDOM.render(render, document.querySelectorAll('app')[0],
   );
 
 };

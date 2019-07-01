@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, ReactComponentElement, ComponentType, useState, useRef, cloneElement, useMemo } from 'react';
+import { FunctionComponent, ReactNode, ReactComponentElement, ComponentType, useState, useRef, useMemo } from 'react';
 import {
   Badge, Button as MuiButton, IconButton, Fab, LinearProgress, CircularProgress, ButtonGroup, Popper, Grow, ClickAwayListener, Paper,
   MenuList,
@@ -96,8 +96,8 @@ export const Button: FunctionComponent<IProps> = ({
 
   const closeMenu = useBound(() => setMenuOpen(false));
 
-  const invokeClickHandler = useBound((menuItemOnClickHandler: (...args: any[]) => PromiseMaybe) => {
-    return (async (...args: any[]) => {
+  const invokeClickHandler = useBound((menuItemOnClickHandler: (...args: unknown[]) => PromiseMaybe) => {
+    return (async (...args: unknown[]) => {
       closeMenu();
       if (!menuItemOnClickHandler || isInProgress) { return; }
       setInProgress(true);
@@ -142,6 +142,7 @@ export const Button: FunctionComponent<IProps> = ({
 
   const renderSpeedDial = (config: IIcon) => (
     <SpeedDial
+      ariaLabel=""
       icon={<SpeedDialIcon openIcon={config.icon} />}
       onBlur={closeMenu}
       onClick={handleClick}
@@ -150,7 +151,7 @@ export const Button: FunctionComponent<IProps> = ({
       onMouseEnter={openMenu}
       onMouseLeave={closeMenu}
       open={isMenuOpen}
-      direction={menuDirection}
+      direction="down"
     >
       {menuItems.map((menuItem, index) => (
         <SpeedDialAction
@@ -192,7 +193,7 @@ export const Button: FunctionComponent<IProps> = ({
 
   const renderSplitButton = (isWithinABadge: boolean, iconConfig: IIcon) => (
     <>
-      <ButtonGroup variant={convertAppearanceToVariant(appearance) as any} ref={menuAnchorRef}>
+      <ButtonGroup variant={convertAppearanceToVariant(appearance) as 'outlined' | 'contained'} ref={menuAnchorRef}>
         {renderSimpleButton(isWithinABadge, iconConfig)}
         <MuiButton
           variant={convertAppearanceToVariant(appearance)}

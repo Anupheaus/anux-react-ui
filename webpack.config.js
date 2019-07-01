@@ -1,6 +1,20 @@
-const createConfig = require('anux-package/configs/webpack');
-
-module.exports = createConfig({
-  title: "Anux - React - UI",
-  cleanOutputPath: true,
-});
+module.exports = {
+  entry: '',
+  mode: options.mode,
+  devtool: options.noMaps ? false : 'source-map',
+  target: ['node', 'library', 'server'].includes(options.target) ? 'node' : 'web',
+  output: {
+    path: path.resolve(options.root, options.outputPath),
+    filename: '[name].js',
+    libraryTarget: options.libraryTarget,
+    umdNamedDefine: true,
+  },
+  resolve: require('./resolve')(options),
+  externals: require('./externals')(options),
+  module: require('./module')(options, extractAppCSS, extractLibsCSS),
+  plugins: require('./plugins')(options, extractAppCSS, extractLibsCSS),
+  stats: require('./stats')(options),
+  optimization: require('./optimization')(options),
+  devServer: require('./devserver')(options),
+  node: options.node,
+};

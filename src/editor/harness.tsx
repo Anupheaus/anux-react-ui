@@ -1,9 +1,9 @@
-import { createHarness } from 'anux-package';
-import { Editor, TextField, NumberField, DropdownField, AutocompleteField, DateTimeField, DateTimeModes, ToggleField, EditorContext } from './';
 import { useBound, CustomTag } from 'anux-react-utils';
-import styles from './harness.css';
 import { FunctionComponent, useContext, useState } from 'react';
 import { Button, Switch } from '@material-ui/core';
+import { createHarness } from '../../tests/harness/createHarness';
+import styles from './harness.styles';
+import { Editor, TextField, NumberField, DropdownField, AutocompleteField, DateTimeField, DateTimeModes, ToggleField, EditorContext } from './';
 
 interface IRecord {
   name: string;
@@ -25,7 +25,7 @@ interface IProps {
 
 const ReportRecord: FunctionComponent<IProps> = ({ record }) => {
 
-  const formatValue = (value: any) => {
+  const formatValue = (value: unknown) => {
     switch (typeof (value)) {
       case 'boolean':
         return value === true ? 'true' : 'false';
