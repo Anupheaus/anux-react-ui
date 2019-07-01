@@ -1,0 +1,83 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2019,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/eslint-recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "env": {
+        "browser": true
+    },
+    "rules": {
+        "quotes": [
+            "error",
+            "single",
+            {
+                "avoidEscape": true
+            }
+        ],
+        "indent": [
+            "error",
+            2
+        ],
+        "max-len": [
+            "warn",
+            {
+                "code": 180
+            }
+        ],
+        "arrow-parens": [
+            "error",
+            "as-needed"
+        ],
+        "sort-imports": "error",
+        "no-unused-vars": "warn",
+        "no-shadow": "warn",
+        "no-unused-expressions": "warn",
+        "no-unused-labels": "error",
+        "prefer-const": [
+            "error",
+            {
+                "destructuring": "all"
+            }
+        ],
+        "max-classes-per-file": "error",
+        "@typescript-eslint/member-ordering": [
+            "warn",
+            {
+                "default": [
+                    "constructor",
+                    "private-static-field",
+                    "protected-static-field",
+                    "public-static-field",
+                    "public-static-method",
+                    "protected-static-method",
+                    "private-static-method",
+                    "private-instance-field",
+                    "protected-instance-field",
+                    "public-instance-field",
+                    "public-instance-method",
+                    "protected-instance-method",
+                    "private-instance-method"
+                ]
+            }
+        ],
+        "@typescript-eslint/unified-signatures": "warn",
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/array-type": [
+            "error",
+            "array"
+        ]
+    }
+}

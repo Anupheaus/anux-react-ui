@@ -32,7 +32,14 @@
     "typestyle": "^2.0.2"
   },
   "devDependencies": {
-    "anux-package": "^1.0.43",
-    "@types/react-autosuggest": "^9.3.9"
+    "@types/react-autosuggest": "^9.3.9",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.7",
+    "typescript": "^3.5.2",
+    "eslint": "^6.0.1",
+    "@typescript-eslint/parser": "^1.11.0",
+    "@typescript-eslint/eslint-plugin": "^1.11.0",
+    "mocha": "^6.1.4",
+    "chai": "^4.2.0"
   }
 }

@@ -1,3 +1,28 @@
 {
-  "extends": "./node_modules/anux-package/configs/tsconfig.json"
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "emitDecoratorMetadata": true,
+    "removeComments": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "resolveJsonModule": true,
+    "lib": [
+      "es2018",
+      "dom",
+      "scripthost",
+      "esnext.asynciterable"
+    ],
+    "target": "es2018",
+    "sourceMap": true,
+    "jsx": "react",
+    "types": [
+      "mocha",
+      "chai"
+    ]
+  }
 }
