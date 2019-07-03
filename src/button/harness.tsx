@@ -3,6 +3,8 @@ import { useBound } from 'anux-react-utils';
 import { style, flex } from '../styles';
 import { createHarness } from '../../tests/harness/createHarness';
 import { Button } from './button';
+import { ButtonBadge } from './badge';
+import { ButtonItem } from './item';
 
 const styles = {
 
@@ -50,28 +52,19 @@ export const buttonHarness = createHarness({ name: 'Buttons' }, () => {
         onClick={handleClick}
       >Badge (content direct)</Button>
       <Button
-        badge={{
-          content: <span>15</span>,
-        }}
+        badge={<ButtonBadge><span>15</span></ButtonBadge>}
         appearance="filled"
         variant="secondary"
         onClick={handleClick}
       >Badge with Content</Button>
       <Button
-        badge={{
-          value: 100,
-          variant: 'secondary',
-          max: 99,
-        }}
+        badge={<ButtonBadge max={99} variant="secondary">100</ButtonBadge>}
         size="small"
         appearance="outlined"
         onClick={handleClick}
       >Badge with Value</Button>
       <Button
-        badge={{
-          content: '!',
-          variant: 'error',
-        }}
+        badge={<ButtonBadge variant="error">!</ButtonBadge>}
         size="large"
         appearance="filled"
         onClick={handleClick}
@@ -102,63 +95,50 @@ export const buttonHarness = createHarness({ name: 'Buttons' }, () => {
         onClick={handleClick}
       >With Icon</Button>
       <Button
-        icon={{
-          icon: <DeleteIcon />,
-          position: 'right',
-        }}
+        icon={<DeleteIcon />}
+        iconPosition="right"
         appearance="outlined"
         variant="primary"
         onClick={handleClick}
       >With Icon</Button>
       <Button
-        icon={<DeleteIcon />}
         size="small"
         onClick={handleClick}
-      />
+      ><DeleteIcon /></Button>
       <Button
-        icon={<DeleteIcon />}
         onClick={handleClick}
-      />
+      ><DeleteIcon /></Button>
       <Button
-        icon={<DeleteIcon />}
         size="large"
         onClick={handleClick}
-      />
+      ><DeleteIcon /></Button>
       <Button
-        icon={<DeleteIcon />}
         appearance="filled"
         size="small"
         onClick={handleClick}
-      />
+      ><DeleteIcon /></Button>
       <Button
-        icon={<DeleteIcon />}
         appearance="filled"
         variant="secondary"
         onClick={handleClick}
-      />
+      ><DeleteIcon /></Button>
       <Button
-        badge={{
-          value: 12,
-          variant: 'secondary',
-        }}
-        icon={<DeleteIcon />}
+        badge={<ButtonBadge variant="secondary">12</ButtonBadge>}
         appearance="filled"
         variant="primary"
         size="large"
         onClick={handleClick}
-      />
+      ><DeleteIcon /></Button>
       <Button
-        icon={<DeleteIcon />}
         appearance="filled"
         variant="primary"
-        // items={[
-        //   <MenuItem key="1" onClick={handleClick}>Choice 1</MenuItem>,
-        //   <MenuItem key="2" onClick={handleClick}>Choice 2</MenuItem>,
-        // ]}
+        items={[
+          <ButtonItem key="1" onClick={handleClick}>Choice 1</ButtonItem>,
+          <ButtonItem key="2" onClick={handleClick}>Choice 2</ButtonItem>,
+        ]}
         onClick={handleClick}
       >Choices!</Button>
       <Button
-        icon={<DeleteIcon />}
         appearance="filled"
         variant="primary"
         // items={[
@@ -166,7 +146,7 @@ export const buttonHarness = createHarness({ name: 'Buttons' }, () => {
         //   <MenuItem key="2" onClick={handleClick}>Choice 2</MenuItem>,
         // ]}
         onClick={handleClick}
-      />
+      ><DeleteIcon /></Button>
     </div>
   );
 });

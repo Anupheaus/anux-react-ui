@@ -1,18 +1,41 @@
 import { FunctionComponent } from 'react';
-import { CustomTag } from 'anux-react-utils';
+import { CustomTag, useBound } from 'anux-react-utils';
 import { CircularProgress, IconButton, Fab } from '@material-ui/core';
 import { SpeedDial, SpeedDialIcon } from '@material-ui/lab';
 import styles from './styles';
+import { IconType, ButtonItemType } from './private.models';
+import { ButtonAppearances } from './models';
 
 interface IProps {
   isInProgress: boolean;
+  isMenuOpen: boolean;
   className: string;
   size: 'small' | 'medium' | 'large';
   variant: 'default' | 'primary' | 'secondary';
+  appearance: ButtonAppearances;
+  hasMenuItems: boolean;
+  children: IconType;
   onClick(): void;
+  renderMenuItems(): ButtonItemType[];
+  onSetMenu(isMenuOpen: boolean): void;
 }
 
-export const IconOnlyButton: FunctionComponent<IProps> = ({ isInProgress, variant, size, className, onClick }) => {
+export const IconOnlyButton: FunctionComponent<IProps> = ({
+  isInProgress,
+  isMenuOpen,
+  variant,
+  size,
+  className,
+  appearance,
+  renderMenuItems,
+  hasMenuItems,
+  onClick,
+  onSetMenu,
+  children,
+}) => {
+
+  const openMenu = useBound(() => onSetMenu(true));
+  const closeMenu = useBound(() => onSetMenu(false));
 
   const renderProgressInIconButton = (progressSize: number) => isInProgress ? (
     <CustomTag name="ui-button-progress" className={styles.progress.circular.container}>
@@ -20,53 +43,50 @@ export const IconOnlyButton: FunctionComponent<IProps> = ({ isInProgress, varian
     </CustomTag>
   ) : null;
 
-  const renderFlatIconButton = (config: IIcon) => (
+  const renderFlatIconButton = () => (
     <IconButton
       className={className}
       color={variant}
       size={size === 'large' ? 'medium' : size}
       onClick={onClick}
     >
-      {config.icon}
+      {children}
       {renderProgressInIconButton(size === 'small' ? 30 : 48)}
     </IconButton>
   );
 
-  const renderFabButton = (config: IIcon) => (
+  const renderFabButton = () => (
     <Fab
       className={className}
       color={variant}
       size={size}
       onClick={onClick}
     >
-      {config.icon}
+      {children}
       {renderProgressInIconButton(size === 'small' ? 44 : size === 'large' ? 60 : 52)}
     </Fab>
   );
 
-  const renderSpeedDial = (config: IIcon) => (
+  const renderSpeedDial = () => (
     <SpeedDial
-      icon={<SpeedDialIcon openIcon={config.icon} />}
+      ariaLabel=""
+      icon={<SpeedDialIcon openIcon={children} />}
       onBlur={closeMenu}
-      onClick={handleClick}
+      onClick={onClick}
       onClose={closeMenu}
       onFocus={openMenu}
       onMouseEnter={openMenu}
       onMouseLeave={closeMenu}
       open={isMenuOpen}
-      direction={menuDirection}
+      direction="up"
     >
-      {menuItems.map((menuItem, index) => (
-        <SpeedDialAction
-          key={`menu-item-${index}`}
-          icon={menuItem.icon}
-          tooltipTitle={menuItem.tooltip}
-          onClick={menuItem.onClick}
-        />
-      ))}
+      {renderMenuItems()}
+      {renderProgressInIconButton(size === 'small' ? 44 : size === 'large' ? 60 : 52)}
     </SpeedDial>
   );
 
-  const renderFilledIconButton = (config: IIcon) => menuItems.length === 0 ? renderFabButton(config) : renderSpeedDial(config);
+  const renderFilledIconButton = () => !hasMenuItems ? renderFabButton() : renderSpeedDial();
+
+  return appearance === 'flat' ? renderFlatIconButton() : renderFilledIconButton();
 
 }

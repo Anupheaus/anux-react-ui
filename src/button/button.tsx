@@ -1,14 +1,12 @@
-import { FunctionComponent, ReactNode, ReactComponentElement, ComponentType, useState, useRef, useMemo } from 'react';
-import {
-  Badge, Button as MuiButton, IconButton, Fab, LinearProgress, CircularProgress, ButtonGroup, Popper, Grow, ClickAwayListener, Paper,
-  MenuList,
-} from '@material-ui/core';
-import { SvgIconProps } from '@material-ui/core/SvgIcon';
-import { SpeedDial, SpeedDialIcon, SpeedDialAction } from '@material-ui/lab';
+import { FunctionComponent, ReactNode, ReactComponentElement, useState, useMemo, cloneElement } from 'react';
 import { PromiseMaybe } from 'anux-common';
 import { CustomTag, useBound } from 'anux-react-utils';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import styles from './styles';
+import { ButtonBadge } from './badge';
+import { IHiddenBadgeProps, IconType, ButtonItemType, IBadgeProps, IHiddenItemProps } from './private.models';
+import { IconOnlyButton } from './iconOnlyButton';
+import { ButtonAppearances, ButtonVariants, ButtonSizes } from './models';
+import { SimpleButton } from './simple';
+import { SplitButton } from './split';
 
 export interface IButtonItem {
   tooltip?: ReactNode;
@@ -16,240 +14,146 @@ export interface IButtonItem {
   onClick(): PromiseMaybe;
 }
 
-type IconType = ReactComponentElement<ComponentType<SvgIconProps>>;
+const isBadgeElement = (badge: ReactComponentElement<typeof ButtonBadge> | number | boolean): badge is ReactComponentElement<typeof ButtonBadge> => {
+  if (typeof (badge) !== 'object' || badge == null) { return false; }
+  if (typeof (badge.type) !== 'function') { return false; }
+  if (badge.type !== ButtonBadge) { return false; }
+  return true;
+};
 
-function createValueOfHelper(value: {}) {
-  return function valueOf<T>(propertyName: string, defaultValue?: T): T {
-    if (defaultValue == null) { return value[propertyName] != null ? value[propertyName] : defaultValue; }
-    if (typeof (value[propertyName]) === typeof (defaultValue)) { return value[propertyName]; }
-    return defaultValue;
-  };
-}
-
-interface IBadge {
-  content?: ReactNode;
-  value?: number;
-  variant?: 'primary' | 'secondary' | 'error';
-  max?: number;
-  isVisible?: boolean;
-  shouldShowZero?: boolean;
-  type?: 'standard' | 'dot';
-}
-
-function applyDefaultsToBadge(badge: IBadge | JSX.Element | number | boolean): IBadge {
-  const valueOf = createValueOfHelper(badge);
-
-  return {
-    content: valueOf('content') || (typeof (badge) !== 'number' && typeof (badge) !== 'boolean' && valueOf('value') == null ? badge : null),
-    value: typeof (badge) === 'number' ? badge : valueOf('value'),
-    variant: valueOf('variant', typeof (badge) === 'boolean' && badge === false ? 'secondary' : 'primary'),
-    max: valueOf('max'),
-    isVisible: valueOf('isVisible', true),
-    shouldShowZero: valueOf('shouldShowZero', false),
-    type: ['standard', 'dot'].includes(badge['type']) ? badge['type'] : typeof (badge) === 'boolean' ? 'dot' : 'standard',
-  };
-}
-
-interface IIcon {
-  position?: 'left' | 'right';
-  icon: IconType;
-}
-
-function applyDefaultsToIcon(icon: IIcon | IconType): IIcon {
-  const valueOf = createValueOfHelper(icon || {});
-
-  return {
-    position: valueOf('position', 'left'),
-    icon: (valueOf('icon') || icon) as IconType,
-  };
-}
+const isIconType = (value: IconType | ReactNode): value is IconType => {
+  if (typeof (value) !== 'object' || value == null) { return false; }
+  if (typeof (value['type']) !== 'object') { return false; }
+  if (value['type']['muiName'] !== 'SvgIcon') { return false }
+  return true;
+};
 
 interface IProps {
-  badge?: IBadge | JSX.Element | number | boolean;
-  icon?: IIcon | ReactComponentElement<ComponentType<SvgIconProps>>;
-  variant?: 'default' | 'primary' | 'secondary';
-  size?: 'small' | 'medium' | 'large';
-  appearance?: 'flat' | 'outlined' | 'filled';
+  badge?: ReactComponentElement<typeof ButtonBadge> | number | boolean;
+  icon?: IconType;
+  iconPosition?: 'left' | 'right';
+  variant?: ButtonVariants;
+  size?: ButtonSizes;
+  appearance?: ButtonAppearances;
   className?: string;
-  items?: IButtonItem[];
+  items?: ButtonItemType[];
   onClick?(): PromiseMaybe;
 }
-
-const convertAppearanceToVariant = (appearance: IProps['appearance']) => appearance === 'outlined' ? 'outlined' : appearance === 'filled' ? 'contained' : 'text';
 
 export const Button: FunctionComponent<IProps> = ({
   badge,
   icon,
+  iconPosition = 'left',
   variant = 'default',
   size = 'medium',
   appearance = 'flat',
   className,
-  items,
+  items = [],
   onClick,
   children,
 }) => {
   const [isInProgress, setInProgress] = useState(false);
-  const [isMenuOpen, setMenuOpen] = useState(false);
-  const menuAnchorRef = useRef(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const openMenu = useBound(() => setMenuOpen(true));
+  icon = icon || (isIconType(children) ? children : null);
+  children = (isIconType(children) ? null : children) || null;
 
-  const closeMenu = useBound(() => setMenuOpen(false));
+  const isWithinABadge = badge != null;
 
-  const invokeClickHandler = useBound((menuItemOnClickHandler: (...args: unknown[]) => PromiseMaybe) => {
-    return (async (...args: unknown[]) => {
-      closeMenu();
-      if (!menuItemOnClickHandler || isInProgress) { return; }
-      setInProgress(true);
-      await menuItemOnClickHandler(...args);
-      setInProgress(false);
-    }) as () => void;
+  const setMenuItemHiddenProps = (hiddenProps: IHiddenItemProps): unknown => hiddenProps;
+
+  const renderMenuItems = (renderAs: IHiddenItemProps['renderAs']) => items.map((menuItem, index) => cloneElement(menuItem, {
+    key: `menu-item-${index}`,
+    ...setMenuItemHiddenProps({
+      renderAs,
+      isInProgress,
+      isMenuOpen,
+      onSetProgress: setInProgress,
+      onSetMenu: setIsMenuOpen,
+    }),
+  }));
+
+  const renderIconMenuItems = useBound(() => renderMenuItems('speed-dial'));
+  const renderSplitMenuItems = useBound(() => renderMenuItems('menu-item'));
+
+  const handleClick = useBound(async () => {
+    setIsMenuOpen(false);
+    if (isInProgress) { return; }
+    setInProgress(true);
+    await onClick();
+    setInProgress(false);
   });
 
-  const handleClick = useBound(invokeClickHandler(onClick));
-
-  const menuItems = useMemo(() => (items || []).map(menuItem => ({ ...menuItem, onClick: invokeClickHandler(menuItem.onClick) })), [items]);
-
-  const renderProgressInIconButton = (progressSize: number) => isInProgress ? (
-    <CustomTag name="ui-button-progress" className={styles.progress.circular.container}>
-      <CircularProgress className={styles.progress.circular.root} color={variant === 'default' ? 'primary' : variant} size={progressSize} />
-    </CustomTag>
-  ) : null;
-
-  const renderFlatIconButton = (config: IIcon) => (
-    <IconButton
+  const renderIconOnlyButton = () => (
+    <IconOnlyButton
+      variant={variant}
+      appearance={appearance}
       className={className}
-      color={variant}
-      size={size === 'large' ? 'medium' : size}
-      onClick={handleClick}
-    >
-      {config.icon}
-      {renderProgressInIconButton(size === 'small' ? 30 : 48)}
-    </IconButton>
-  );
-
-  const renderFabButton = (config: IIcon) => (
-    <Fab
-      className={className}
-      color={variant}
+      isInProgress={isInProgress}
+      isMenuOpen={isMenuOpen}
       size={size}
+      hasMenuItems={items.length > 0}
+      renderMenuItems={renderIconMenuItems}
+      onClick={handleClick}
+      onSetMenu={setIsMenuOpen}
+    >
+      {icon}
+    </IconOnlyButton>
+  );
+
+  const renderSimpleButton = () => (
+    <SimpleButton
+      appearance={appearance}
+      _className={className}
+      icon={icon}
+      iconPosition={iconPosition}
+      isInProgress={isInProgress}
+      isWithinABadge={isWithinABadge}
+      _size={size}
+      _variant={variant}
       onClick={handleClick}
     >
-      {config.icon}
-      {renderProgressInIconButton(size === 'small' ? 44 : size === 'large' ? 60 : 52)}
-    </Fab>
+      {children}
+    </SimpleButton>
   );
 
-  const renderSpeedDial = (config: IIcon) => (
-    <SpeedDial
-      ariaLabel=""
-      icon={<SpeedDialIcon openIcon={config.icon} />}
-      onBlur={closeMenu}
-      onClick={handleClick}
-      onClose={closeMenu}
-      onFocus={openMenu}
-      onMouseEnter={openMenu}
-      onMouseLeave={closeMenu}
-      open={isMenuOpen}
-      direction="down"
-    >
-      {menuItems.map((menuItem, index) => (
-        <SpeedDialAction
-          key={`menu-item-${index}`}
-          icon={menuItem.icon}
-          tooltipTitle={menuItem.tooltip}
-          onClick={menuItem.onClick}
-        />
-      ))}
-    </SpeedDial>
-  );
-
-  const renderFilledIconButton = (config: IIcon) => menuItems.length === 0 ? renderFabButton(config) : renderSpeedDial(config);
-
-  const renderIconInButton = ({ icon: iconElement, position }: IIcon, actualPosition: IIcon['position']) => (
-    icon && position === actualPosition ? <CustomTag name="ui-button-icon" className={styles.iconInButton(actualPosition)}>{iconElement}</CustomTag> : null
-  );
-
-  const renderProgressInButton = () => isInProgress ? (
-    <CustomTag name="ui-button-progress" className={styles.progress.linear.container}>
-      <LinearProgress className={styles.progress.linear.root} color={variant === 'default' ? 'primary' : variant} />
-    </CustomTag>
-  ) : null;
-
-  const renderSimpleButton = (isWithinABadge: boolean, iconConfig: IIcon) => (
-    <MuiButton
-      className={!isWithinABadge ? className : undefined}
-      variant={convertAppearanceToVariant(appearance)}
-      color={variant}
+  const renderSplitButton = () => (
+    <SplitButton
+      appearance={appearance}
+      variant={variant}
       size={size}
-      onClick={handleClick}
+      renderMenuItems={renderSplitMenuItems}
+      isMenuOpen={isMenuOpen}
+      onSetMenu={setIsMenuOpen}
     >
-      {renderIconInButton(iconConfig, 'left')}
-      <CustomTag name="ui-button-content">{children || null}</CustomTag>
-      {renderIconInButton(iconConfig, 'right')}
-      {renderProgressInButton()}
-    </MuiButton>
+      {renderSimpleButton()}
+    </SplitButton>
   );
 
-  const renderSplitButton = (isWithinABadge: boolean, iconConfig: IIcon) => (
-    <>
-      <ButtonGroup variant={convertAppearanceToVariant(appearance) as 'outlined' | 'contained'} ref={menuAnchorRef}>
-        {renderSimpleButton(isWithinABadge, iconConfig)}
-        <MuiButton
-          variant={convertAppearanceToVariant(appearance)}
-          color={variant}
-          size="small"
-          onClick={openMenu}
-          aria-owns={isMenuOpen ? 'menu-list-grow' : undefined}
-          aria-haspopup="true"
-        >
-          <ArrowDropDownIcon />
-        </MuiButton>
-      </ButtonGroup>
-      <Popper open={isMenuOpen} anchorEl={menuAnchorRef.current} transition disablePortal>
-        {({ TransitionProps, placement }) => (
-          <Grow
-            {...TransitionProps}
-            style={{
-              transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
-            }}
-          >
-            <Paper id="menu-list-grow">
-              <ClickAwayListener onClickAway={closeMenu}>
-                <MenuList>
-                  {menuItems}
-                </MenuList>
-              </ClickAwayListener>
-            </Paper>
-          </Grow>
-        )}
-      </Popper>
-    </>
-  );
+  const buttonRendering = children == null ? renderIconOnlyButton() : items.length > 0 ? renderSplitButton() : renderSimpleButton();
 
-  const renderButton = (isWithinABadge: boolean) => ((iconConfig: IIcon) =>
-    iconConfig.icon != null && children == null
-      ? (appearance === 'filled' ? renderFilledIconButton(iconConfig) : renderFlatIconButton(iconConfig))
-      : (menuItems.length > 0 ? renderSplitButton(isWithinABadge, iconConfig) : renderSimpleButton(isWithinABadge, iconConfig))
-  )(applyDefaultsToIcon(icon));
-
-  const renderButtonWithBadge = () => ((config: IBadge) => (
-    <Badge
-      className={className}
-      badgeContent={config.content || config.value || null}
-      color={config.variant}
-      invisible={!config.isVisible}
-      max={config.max}
-      showZero={config.shouldShowZero}
-      variant={config.type}
-    >
-      {renderButton(true)}
-    </Badge>
-  ))(applyDefaultsToBadge(badge));
+  const finalRendering = useMemo(() => {
+    if (badge == null) { return buttonRendering; }
+    let badgeComponent = isBadgeElement(badge) ? badge : null;
+    if (!isBadgeElement(badge)) {
+      const badgeChildren: ReactNode = typeof (badge) !== 'boolean' ? badge : null;
+      const type: IBadgeProps['type'] = typeof (badge) === 'boolean' ? 'dot' : 'standard';
+      const badgeVariant: IBadgeProps['variant'] = typeof (badge) === 'boolean' ? (badge === false ? 'secondary' : 'primary')
+        : variant === 'default' ? 'primary' : variant;
+      badgeComponent = (
+        <ButtonBadge variant={badgeVariant} type={type}>{badgeChildren}</ButtonBadge>
+      );
+    }
+    const hiddenProperties: IHiddenBadgeProps = {
+      button: buttonRendering,
+      className,
+    };
+    return cloneElement(badgeComponent, { ...hiddenProperties as unknown, });
+  }, [badge, variant, className, buttonRendering]);
 
   return (
     <CustomTag name="ui-button">
-      {badge != null ? renderButtonWithBadge() : renderButton(false)}
+      {finalRendering}
     </CustomTag>
   );
 };

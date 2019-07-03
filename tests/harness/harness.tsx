@@ -17,7 +17,7 @@ Object.keys(exportedHarnesses)
     if (typeof (harness) === 'function') {
       const details = getHarnessDetails(harness);
       if (!details) {
-        // tslint:disable-next-line: no-console
+        // eslint-disable-next-line no-console
         console.warn('Found a react function component being exported from a harness file without being wrapped with createHarness.');
         return;
       }

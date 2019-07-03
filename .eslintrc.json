@@ -65,6 +65,8 @@
         ],
         "max-classes-per-file": "error",
         "no-inner-declarations": "off",
+        "no-console": "warn",
+        "no-alert": "warn",
         "@typescript-eslint/member-ordering": [
             "warn",
             {
