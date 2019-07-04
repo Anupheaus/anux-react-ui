@@ -24,5 +24,8 @@
       "mocha",
       "chai"
     ],
-  }
+  },
+  "exclude": [
+    "./dist"
+  ]
 }
