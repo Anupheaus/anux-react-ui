@@ -39,6 +39,7 @@ export const DropdownField: <T extends IRecord>(props: PropsWithChildren<IProps<
     isDisabled: isReadOnly || isLoadingItems,
     isValid(raiseError) {
       if (loadedItems && loadedItems.findById(get)) { return; }
+      if (get == null && !isRequired) { return; }
       raiseError({
         message: 'Current value is invalid',
         priority: ValidationPriorities.High,
