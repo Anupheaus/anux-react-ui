@@ -5,21 +5,28 @@ const NotifierPlugin = require('webpack-build-notifier');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const chalk = require('chalk');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
+const TerserPlugin = require('terser-webpack-plugin');
+
 const title = 'Anux - React - UI';
 
 module.exports = {
   entry: {
     index: path.resolve(__dirname, './src/index'),
   },
-  mode: 'production',
   devtool: 'source-map',
-  target: 'node',
   output: {
     path: path.resolve(__dirname, './dist'),
+    library: 'anux-react-ui',
+    libraryTarget: 'commonjs2',
+    umdNamedDefine: true,
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js'],
   },
+  externals: [
+    nodeExternals(),
+  ],
   module: {
     rules: [
       {
@@ -33,7 +40,22 @@ module.exports = {
           }
         },
       },
-    ]
+    ],
+  },
+  optimization: {
+    minimizer: [
+      new TerserPlugin({
+        cache: true,
+        parallel: true,
+        terserOptions: {
+          compress: true,
+          mangle: false,
+          keep_classnames: true, // eslint-disable-line @typescript-eslint/camelcase
+          keep_fnames: true, // eslint-disable-line @typescript-eslint/camelcase
+        },
+        sourceMap: true,
+      }),
+    ],
   },
   plugins: [
     new CleanWebpackPlugin(),

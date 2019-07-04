@@ -25,22 +25,17 @@
   dependencies:
     regenerator-runtime "^0.13.2"
 
-"@date-io/core@^1.3.7":
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/@date-io/core/-/core-1.3.7.tgz#c65d2979ee7696c0551d8f24df618b21b83cde4a"
-  integrity sha512-oHFBOjQskqrFngyDnJPOM1o4FVpKPyNe/aDtkj1HQEfCe7BV3cggwuTll0AOchNdiYY0yJEVyUl8Vi63HZxfBA==
-
 "@date-io/core@^1.3.8":
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/@date-io/core/-/core-1.3.8.tgz#a20da7125f1444631dd96a6e8baa8982665aaa95"
   integrity sha512-XlvpzhipF/badZEJPAfgXRX9bFG2UpFl1T6O0hn1RzWJf3yexf9/M2wcEm6jh7RVyrlSayttkXtGPqVPdoJQ7Q==
 
-"@date-io/moment@^1.3.7":
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/@date-io/moment/-/moment-1.3.7.tgz#e731aa68ab711756d31f43b8f7630b5eb2c01c53"
-  integrity sha512-DpXK6s5f9HOoPPURmqSUN0mwFTTorSXfJyJA42PspJ8ZTJLIeuWUXRkjJKS6hdXUfy3PmshEQTzWbhoOiDwjfw==
+"@date-io/moment@^1.3.8":
+  version "1.3.8"
+  resolved "https://registry.yarnpkg.com/@date-io/moment/-/moment-1.3.8.tgz#e0d4599891782ac811be763d514408949b3e09b0"
+  integrity sha512-1caePZfVFeL8bJLQVZVBqYQfgF+4SVJZBTDC1o7bMTtId7/yfIFm3ySxHJrfpJa4ACdF667Ld4wXEfvZz98tuA==
   dependencies:
-    "@date-io/core" "^1.3.7"
+    "@date-io/core" "^1.3.8"
 
 "@emotion/hash@^0.7.1":
   version "0.7.2"
@@ -90,7 +85,7 @@
     prop-types "^15.7.2"
     warning "^4.0.1"
 
-"@material-ui/pickers@^3.1.1":
+"@material-ui/pickers@^3.1.2":
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/@material-ui/pickers/-/pickers-3.1.2.tgz#3f51a59f2f8bb6847f9833ca465cda937f3cbb6f"
   integrity sha512-ij3w6s/FMgfEetywH7DB3YFgIZ7xezsT/RHlpoauAO8nvPDrYlRHK5sPOiDzxbjE9SB/t3aKkNZmYcs+sVd5ug==
@@ -6233,7 +6228,7 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.3"
 
-terser-webpack-plugin@^1.1.0:
+terser-webpack-plugin@^1.1.0, terser-webpack-plugin@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-1.3.0.tgz#69aa22426299f4b5b3775cbed8cb2c5d419aa1d4"
   integrity sha512-W2YWmxPjjkUcOWa4pBEv4OP4er1aeQJlSo2UhtCFQCuRXEHjOFscO8VyWHj9JLlA0RzQb8Y2/Ta78XZvT54uGg==
@@ -6784,6 +6779,11 @@ webpack-log@^2.0.0:
   dependencies:
     ansi-colors "^3.0.0"
     uuid "^3.3.2"
+
+webpack-node-externals@^1.7.2:
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/webpack-node-externals/-/webpack-node-externals-1.7.2.tgz#6e1ee79ac67c070402ba700ef033a9b8d52ac4e3"
+  integrity sha512-ajerHZ+BJKeCLviLUUmnyd5B4RavLF76uv3cs6KNuO8W+HuQaEs0y0L7o40NQxdPy5w0pcv8Ew7yPUAQG0UdCg==
 
 webpack-sources@^1.3.0:
   version "1.3.0"
