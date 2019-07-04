@@ -1,5 +1,5 @@
-import { chain } from './chain';
 import { CSSProperties } from 'react';
+import { chain } from './chain';
 
 function absoluteWithMargin(styles: CSSProperties) {
 

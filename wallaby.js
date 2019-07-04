@@ -1,5 +1,1 @@
-const config = require('anux-package/configs/wallaby');
-
-module.exports = config({
-  name: 'Anux - React - UI'
-});
+/* do nothing at the moment */

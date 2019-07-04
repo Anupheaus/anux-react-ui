@@ -7,6 +7,10 @@ export default {
     ...(iconPosition === 'left' ? { marginRight: '5px' } : { marginLeft: '5px' }),
   }),
 
+  speedDial: style({
+    position: 'relative',
+  }),
+
   progress: {
 
     linear: {

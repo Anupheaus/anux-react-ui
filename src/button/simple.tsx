@@ -2,6 +2,7 @@ import { FunctionComponent, useMemo } from 'react';
 import { Button, LinearProgress } from '@material-ui/core';
 import { CustomTag } from 'anux-react-utils';
 import { classNames } from '../styles';
+import { addDisplayNameTo } from '../utils';
 import { ButtonAppearances, ButtonVariants, ButtonSizes, ButtonIconPositions } from './models';
 import { IconType, convertAppearanceToVariant } from './private.models';
 import styles from './styles';
@@ -58,3 +59,5 @@ export const SimpleButton: FunctionComponent<IProps> = ({
     </Button>
   );
 }
+
+addDisplayNameTo(SimpleButton, 'Button_SimpleButton');

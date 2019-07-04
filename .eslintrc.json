@@ -10,7 +10,8 @@
     "plugins": [
         "@typescript-eslint",
         "react",
-        "import"
+        "import",
+        "chai-friendly"
     ],
     "extends": [
         "eslint:recommended",
@@ -21,6 +22,11 @@
         "plugin:import/warnings",
         "plugin:import/typescript"
     ],
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
     "env": {
         "browser": true,
         "node": true,
@@ -53,9 +59,9 @@
             "as-needed"
         ],
         "sort-imports": "off",
-        "no-unused-vars": "warn",
+        "no-unused-vars": "off",
         "no-shadow": "warn",
-        "no-unused-expressions": "warn",
+        "no-unused-expressions": "off",
         "no-unused-labels": "error",
         "prefer-const": [
             "error",
@@ -101,12 +107,22 @@
         ],
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/no-unused-vars": [
+            "warn",
+            {
+                "args": "after-used",
+                "varsIgnorePattern": "^_",
+                "ignoreRestSiblings": true
+            }
+        ],
         "react/jsx-uses-react": "error",
         "react/jsx-uses-vars": "error",
         "react/react-in-jsx-scope": "off",
         "react/prop-types": "off",
         "import/no-unresolved": "error",
         "import/export": "off",
-        "import/order": "error"
+        "import/order": "error",
+        "import/named": "off",
+        "chai-friendly/no-unused-expressions": "error"
     }
 }

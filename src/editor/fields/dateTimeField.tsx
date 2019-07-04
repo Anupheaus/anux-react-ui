@@ -18,9 +18,9 @@ interface IProps {
 }
 
 interface ICommonProps extends DatePickerProps, TimePickerProps, DateTimePickerProps {
-  views: any;
-  openTo: any;
-  onChange(date: any): void;
+  views: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  openTo: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+  onChange(date: any): void; // eslint-disable-line @typescript-eslint/no-explicit-any
   onClick?(): void;
 }
 

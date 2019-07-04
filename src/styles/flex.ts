@@ -1,5 +1,5 @@
-import { chain, ChainStylesDelegate, ChainFunctionDelegate } from './chain';
 import { CSSProperties } from 'react';
+import { chain, ChainStylesDelegate, ChainFunctionDelegate } from './chain';
 
 type FlexAlignments = 'flex-start' | 'flex-end' | 'center';
 
@@ -23,7 +23,6 @@ const wrapOrStack = (styles: ChainStylesDelegate, func: ChainFunctionDelegate) =
   wrap: {
     ...styles({
       flexDirection: 'row',
-      flexWrap: 'wrap',
     }),
     align: func(align),
   },

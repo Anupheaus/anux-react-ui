@@ -17,11 +17,11 @@ describe('hooks - useFieldBusy', () => {
   };
 
   function createComponent(id: string, setFieldBusyState: (id: string, isBusy: boolean) => void) {
-
-    return mount(<EditorContext.Provider value={{ ...{} as any, setFieldBusyState }}><Component id={id} isBusy={false} /></EditorContext.Provider>);
+    // @ts-ignore
+    return mount(<EditorContext.Provider value={{ setFieldBusyState }}><Component id={id} isBusy={false} /></EditorContext.Provider>);
   }
 
-  function setIsBusy(component: ReactWrapper<any, Readonly<{}>, any>, isBusy: boolean): void {
+  function setIsBusy(component: ReactWrapper<unknown, Readonly<{}>, unknown>, isBusy: boolean): void {
     const id = component.find(Component).prop('id');
     component.setProps({
       children: (

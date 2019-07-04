@@ -1,20 +1,16 @@
-import { FunctionComponent, ReactNode, ReactComponentElement, useState, useMemo, cloneElement } from 'react';
+import { FunctionComponent, ReactNode, useState, useMemo, cloneElement } from 'react';
 import { PromiseMaybe } from 'anux-common';
 import { CustomTag, useBound } from 'anux-react-utils';
+import { addDisplayNameTo } from '../utils';
 import { ButtonBadge } from './badge';
-import { IHiddenBadgeProps, IconType, ButtonItemType, IBadgeProps, IHiddenItemProps } from './private.models';
+import { IHiddenBadgeProps, IconType, ButtonItemType, IBadgeProps, IHiddenItemProps, ButtonBadgeType } from './private.models';
 import { IconOnlyButton } from './iconOnlyButton';
-import { ButtonAppearances, ButtonVariants, ButtonSizes } from './models';
+import { ButtonAppearances, ButtonVariants, ButtonSizes, ButtonIconPositions, ButtonMenuDirections } from './models';
 import { SimpleButton } from './simple';
 import { SplitButton } from './split';
 
-export interface IButtonItem {
-  tooltip?: ReactNode;
-  icon?: ReactNode;
-  onClick(): PromiseMaybe;
-}
 
-const isBadgeElement = (badge: ReactComponentElement<typeof ButtonBadge> | number | boolean): badge is ReactComponentElement<typeof ButtonBadge> => {
+const isBadgeElement = (badge: ButtonBadgeType | number | boolean): badge is ButtonBadgeType => {
   if (typeof (badge) !== 'object' || badge == null) { return false; }
   if (typeof (badge.type) !== 'function') { return false; }
   if (badge.type !== ButtonBadge) { return false; }
@@ -29,14 +25,15 @@ const isIconType = (value: IconType | ReactNode): value is IconType => {
 };
 
 interface IProps {
-  badge?: ReactComponentElement<typeof ButtonBadge> | number | boolean;
+  badge?: ButtonBadgeType | number | boolean;
   icon?: IconType;
-  iconPosition?: 'left' | 'right';
+  iconPosition?: ButtonIconPositions;
   variant?: ButtonVariants;
   size?: ButtonSizes;
   appearance?: ButtonAppearances;
   className?: string;
   items?: ButtonItemType[];
+  menuDirection?: ButtonMenuDirections;
   onClick?(): PromiseMaybe;
 }
 
@@ -47,6 +44,7 @@ export const Button: FunctionComponent<IProps> = ({
   variant = 'default',
   size = 'medium',
   appearance = 'flat',
+  menuDirection = 'down',
   className,
   items = [],
   onClick,
@@ -67,7 +65,6 @@ export const Button: FunctionComponent<IProps> = ({
     ...setMenuItemHiddenProps({
       renderAs,
       isInProgress,
-      isMenuOpen,
       onSetProgress: setInProgress,
       onSetMenu: setIsMenuOpen,
     }),
@@ -93,6 +90,7 @@ export const Button: FunctionComponent<IProps> = ({
       isMenuOpen={isMenuOpen}
       size={size}
       hasMenuItems={items.length > 0}
+      menuDirection={menuDirection}
       renderMenuItems={renderIconMenuItems}
       onClick={handleClick}
       onSetMenu={setIsMenuOpen}
@@ -124,6 +122,7 @@ export const Button: FunctionComponent<IProps> = ({
       size={size}
       renderMenuItems={renderSplitMenuItems}
       isMenuOpen={isMenuOpen}
+      menuDirection={menuDirection}
       onSetMenu={setIsMenuOpen}
     >
       {renderSimpleButton()}
@@ -157,3 +156,5 @@ export const Button: FunctionComponent<IProps> = ({
     </CustomTag>
   );
 };
+
+addDisplayNameTo(Button, 'Button');

@@ -2,7 +2,8 @@ import { FunctionComponent, useRef } from 'react';
 import { ButtonGroup, Button, Popper, Grow, Paper, ClickAwayListener, MenuList } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { useBound } from 'anux-react-utils';
-import { ButtonAppearances, ButtonVariants, ButtonSizes } from './models';
+import { addDisplayNameTo } from '../utils';
+import { ButtonAppearances, ButtonVariants, ButtonSizes, ButtonMenuDirections } from './models';
 import { convertAppearanceToVariant, ButtonItemType } from './private.models';
 
 interface IProps {
@@ -10,6 +11,7 @@ interface IProps {
   variant: ButtonVariants;
   isMenuOpen: boolean;
   size: ButtonSizes;
+  menuDirection: ButtonMenuDirections;
   renderMenuItems(): ButtonItemType[];
   onSetMenu(isMenuOpen: boolean): void;
 }
@@ -19,6 +21,7 @@ export const SplitButton: FunctionComponent<IProps> = ({
   variant,
   isMenuOpen,
   size,
+  menuDirection,
   renderMenuItems,
   onSetMenu,
   children,
@@ -51,11 +54,11 @@ export const SplitButton: FunctionComponent<IProps> = ({
         </Button>
       </ButtonGroup>
       <Popper open={isMenuOpen} anchorEl={menuAnchorRef.current} transition disablePortal>
-        {({ TransitionProps, placement }) => (
+        {({ TransitionProps }) => (
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
+              transformOrigin: menuDirection === 'up' ? 'center bottom' : 'center top',
               minWidth: buttonGroupWidth,
             }}
           >
@@ -72,3 +75,5 @@ export const SplitButton: FunctionComponent<IProps> = ({
     </>
   )
 };
+
+addDisplayNameTo(SplitButton, 'Button_SplitButton');

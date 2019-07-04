@@ -2,18 +2,20 @@ import { FunctionComponent } from 'react';
 import { CustomTag, useBound } from 'anux-react-utils';
 import { CircularProgress, IconButton, Fab } from '@material-ui/core';
 import { SpeedDial, SpeedDialIcon } from '@material-ui/lab';
+import { addDisplayNameTo } from '../utils';
 import styles from './styles';
 import { IconType, ButtonItemType } from './private.models';
-import { ButtonAppearances } from './models';
+import { ButtonAppearances, ButtonSizes, ButtonVariants, ButtonMenuDirections } from './models';
 
 interface IProps {
   isInProgress: boolean;
   isMenuOpen: boolean;
   className: string;
-  size: 'small' | 'medium' | 'large';
-  variant: 'default' | 'primary' | 'secondary';
+  size: ButtonSizes;
+  variant: ButtonVariants;
   appearance: ButtonAppearances;
   hasMenuItems: boolean;
+  menuDirection: ButtonMenuDirections;
   children: IconType;
   onClick(): void;
   renderMenuItems(): ButtonItemType[];
@@ -29,6 +31,7 @@ export const IconOnlyButton: FunctionComponent<IProps> = ({
   appearance,
   renderMenuItems,
   hasMenuItems,
+  menuDirection,
   onClick,
   onSetMenu,
   children,
@@ -51,7 +54,7 @@ export const IconOnlyButton: FunctionComponent<IProps> = ({
       onClick={onClick}
     >
       {children}
-      {renderProgressInIconButton(size === 'small' ? 30 : 48)}
+      {renderProgressInIconButton(size === 'small' ? 34 : 54)}
     </IconButton>
   );
 
@@ -63,12 +66,13 @@ export const IconOnlyButton: FunctionComponent<IProps> = ({
       onClick={onClick}
     >
       {children}
-      {renderProgressInIconButton(size === 'small' ? 44 : size === 'large' ? 60 : 52)}
+      {renderProgressInIconButton(size === 'small' ? 46 : size === 'large' ? 60 : 52)}
     </Fab>
   );
 
   const renderSpeedDial = () => (
     <SpeedDial
+      className={styles.speedDial}
       ariaLabel=""
       icon={<SpeedDialIcon openIcon={children} />}
       onBlur={closeMenu}
@@ -78,10 +82,10 @@ export const IconOnlyButton: FunctionComponent<IProps> = ({
       onMouseEnter={openMenu}
       onMouseLeave={closeMenu}
       open={isMenuOpen}
-      direction="up"
+      direction={menuDirection}
     >
       {renderMenuItems()}
-      {renderProgressInIconButton(size === 'small' ? 44 : size === 'large' ? 60 : 52)}
+      {renderProgressInIconButton(60)}
     </SpeedDial>
   );
 
@@ -90,3 +94,5 @@ export const IconOnlyButton: FunctionComponent<IProps> = ({
   return appearance === 'flat' ? renderFlatIconButton() : renderFilledIconButton();
 
 }
+
+addDisplayNameTo(IconOnlyButton, 'Button_IconOnlyButton');

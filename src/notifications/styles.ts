@@ -1,5 +1,5 @@
-import { style, position, flex } from '../styles';
 import { CSSProperties } from '@material-ui/styles';
+import { style, position, flex } from '../styles';
 import { Variants } from './models';
 
 const variantStyles: CSSProperties[] = [];
@@ -15,19 +15,36 @@ export default {
 
   host: style({
     ...position.relative,
-    ...flex.full,
+    display: 'inherit',
+    flex: 'inherit',
+    flexDirection: 'inherit',
+    width: '100%',
+    height: '100%',
+  }),
+
+  container: style({
+    ...position.absolute.full,
+    ...flex.full.stack,
     overflow: 'hidden',
+    pointerEvents: 'none',
+
   }),
 
   toaster: {
 
-    root: {
+    root: style({
       position: 'absolute',
-    } as CSSProperties,
+      maxWidth: '90%',
+      width: '100%',
+      pointerEvents: 'all',
+    }),
 
     content: (variant: Variants) => style({
       color: 'white',
       ...variantStyles[variant],
+      minWidth: 'unset',
+      fontSize: '0.8em',
+      flexWrap: 'nowrap',
     }),
 
     progress: style({
@@ -44,6 +61,7 @@ export default {
 
       container: style({
         ...flex.full.wrap.align({ vertical: 'center' }),
+        flexWrap: 'nowrap',
       }),
 
       icon: style({
@@ -61,6 +79,20 @@ export default {
       color: 'inherit',
     }),
 
+  },
+
+  dialog: {
+    root: style({
+      pointerEvents: 'all',
+    }),
+
+    content: {
+
+      text: style({
+        cursor: 'default',
+      }),
+
+    },
   },
 
 };

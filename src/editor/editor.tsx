@@ -1,9 +1,11 @@
-import { ReactElement, PropsWithChildren, useState, useEffect } from 'react';
+import { ReactElement, PropsWithChildren, useState, useEffect, useRef } from 'react';
 import { useBound, areShallowEqual, CustomTag, useClasses } from 'anux-react-utils';
+import { IMap, PromiseMaybe } from 'anux-common';
+import { Notifications } from '../notifications/notifications';
+import { addDisplayNameTo } from '../utils';
 import { IValidationError } from './models';
 import { EditorContext } from './context';
-import styles from './editor.css';
-import { IMap, PromiseMaybe } from 'anux-common';
+import styles from './styles';
 
 interface IEditorChildren<T extends {}> {
   record: T;
@@ -23,8 +25,10 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
   className,
   children,
   onSave,
-  onCancel }) => {
+  onCancel,
+}) => {
   type T = typeof record;
+  const notificationHostId = useRef(Math.uniqueId());
 
   const [state, setState] = useState({
     record,
@@ -42,15 +46,15 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
   const reset = () => mutatedRecord === record && isDirty === false ? undefined : setState(innerState => ({ ...innerState, record, isDirty: false }));
   useEffect(reset, [record]);
 
-  const cancel = useBound((additionalParams?: IMap) => {
+  const cancel = useBound(async (additionalParams?: IMap) => {
     reset();
-    if (onCancel) { onCancel(additionalParams || {}); }
+    if (onCancel) { await onCancel(additionalParams || {}); }
   });
 
-  const save = useBound((additionalParams?: IMap) => {
+  const save = useBound(async (additionalParams?: IMap) => {
     if (!onSave) { throw new Error('This record has been requested to be saved, but no onSave handler has been provided.'); }
     if (!isDirty) { return; }
-    onSave(mutatedRecord, additionalParams || {});
+    await onSave(mutatedRecord, additionalParams || {});
   });
 
   const setValidationErrorsFor = useBound((id: string, errors: IValidationError[]) => setState(innerState => ({
@@ -71,9 +75,16 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
 
   return (
     <CustomTag name="anux-editor" className={classNames}>
-      <EditorContext.Provider value={{ record, update, isDirty, canSave, validationErrors, busyFields, setValidationErrorsFor, setFieldBusyState, cancel, save }}>
-        {children({ record: mutatedRecord, update })}
-      </EditorContext.Provider>
+      <Notifications id={notificationHostId.current}>
+        <EditorContext.Provider value={{
+          record, update, isDirty, canSave, notificationHostId: notificationHostId.current,
+          validationErrors, busyFields, setValidationErrorsFor, setFieldBusyState, cancel, save
+        }}>
+          {children({ record: mutatedRecord, update })}
+        </EditorContext.Provider>
+      </Notifications>
     </CustomTag>
   );
 };
+
+addDisplayNameTo(Editor, 'Editor');

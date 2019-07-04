@@ -4,7 +4,6 @@ const webpack = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const NotifierPlugin = require('webpack-build-notifier');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
-const NodemonPlugin = require('nodemon-webpack-plugin');
 const chalk = require('chalk');
 
 const outputPath = path.resolve(__dirname, './tests/harness');

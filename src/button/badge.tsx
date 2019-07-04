@@ -1,5 +1,6 @@
 import { FunctionComponent } from 'react';
 import { Badge } from '@material-ui/core';
+import { addDisplayNameTo } from '../utils';
 import { IHiddenBadgeProps, IBadgeProps } from './private.models';
 
 export const ButtonBadge: FunctionComponent<IBadgeProps> = ({
@@ -27,3 +28,5 @@ export const ButtonBadge: FunctionComponent<IBadgeProps> = ({
     </Badge>
   );
 };
+
+addDisplayNameTo(ButtonBadge, 'ButtonBadge');

@@ -1,18 +1,21 @@
 import { ReactNode, ReactComponentElement, ComponentType } from 'react';
 import { SvgIconProps } from '@material-ui/core/SvgIcon';
 import { ButtonItem } from './item';
-import { ButtonAppearances } from './models';
+import { ButtonAppearances, ButtonBadgeTypes } from './models';
+import { ButtonBadge } from './badge';
 
 export type IconType = ReactComponentElement<ComponentType<SvgIconProps>>;
 
 export type ButtonItemType = ReactComponentElement<typeof ButtonItem>;
+
+export type ButtonBadgeType = ReactComponentElement<typeof ButtonBadge>;
 
 export interface IBadgeProps {
   variant?: 'primary' | 'secondary' | 'error';
   max?: number;
   isVisible?: boolean;
   shouldShowZero?: boolean;
-  type?: 'standard' | 'dot';
+  type?: ButtonBadgeTypes;
   children: ReactNode;
 }
 
@@ -24,7 +27,6 @@ export interface IHiddenBadgeProps {
 export interface IHiddenItemProps {
   renderAs: 'speed-dial' | 'menu-item';
   isInProgress: boolean;
-  isMenuOpen: boolean;
   onSetProgress(isInProgress: boolean): void;
   onSetMenu(isMenuOpen: boolean): void;
 }

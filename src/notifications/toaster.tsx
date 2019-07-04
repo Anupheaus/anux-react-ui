@@ -1,5 +1,4 @@
 import { FunctionComponent, useState, forwardRef, useMemo, CSSProperties } from 'react';
-import { INotificationComponentProps, INotificationActions, Variants } from './models';
 import { Snackbar, SnackbarContent, Slide, IconButton, CircularProgress, Backdrop } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
 import CloseIcon from '@material-ui/icons/Close';
@@ -7,9 +6,10 @@ import ErrorIcon from '@material-ui/icons/Error';
 import WarningIcon from '@material-ui/icons/Warning';
 import InfoIcon from '@material-ui/icons/Info';
 import SuccessIcon from '@material-ui/icons/CheckCircle';
-import { useActions, useOnUnmount, CustomTag, useBound } from 'anux-react-utils';
+import { useActions, useOnUnmount, CustomTag, useBound, useTimeout } from 'anux-react-utils';
 import { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import { ClickAwayListenerProps } from '@material-ui/core/ClickAwayListener';
+import { INotificationComponentProps, INotificationActions, Variants } from './models';
 import styles from './styles';
 
 const anchorOrigin: SnackbarOrigin = { vertical: 'bottom', horizontal: 'center' };
@@ -17,6 +17,7 @@ const createTransition = (onFinished: () => void) => forwardRef<unknown, Transit
 const closeIconStyle: CSSProperties = { fontSize: 20 };
 
 const renderIconForVariant = (variant: Variants) => {
+  // eslint-disable-next-line react/jsx-key
   const variantIcon = [null, <ErrorIcon />, <WarningIcon />, <InfoIcon />, <SuccessIcon />, <CircularProgress size={20} className={styles.toaster.progress} />][variant];
   if (!variantIcon) { return null; }
   return (<CustomTag name="ui-toaster-icon" className={styles.toaster.message.icon}>{variantIcon}</CustomTag>);
@@ -30,7 +31,7 @@ export const Toaster: FunctionComponent<INotificationComponentProps> = ({ config
   isModal,
   variant = Variants.Standard,
 },
-  onClose,
+onClose,
 }) => {
   const [isOpen, setOpen] = useState(true);
 
@@ -59,6 +60,8 @@ export const Toaster: FunctionComponent<INotificationComponentProps> = ({ config
 
   const renderButtons = () => buttons ? buttons(actions) : null;
 
+  if (autoHideAfterMilliseconds > 0) { useTimeout(actions.close, autoHideAfterMilliseconds); }
+
   if (waitOn) { waitOn().then(actions.close, actions.close); }
 
   useOnUnmount(actions.close);
@@ -72,7 +75,7 @@ export const Toaster: FunctionComponent<INotificationComponentProps> = ({ config
       />
       <Snackbar
         open={isOpen}
-        style={styles.toaster.root}
+        className={styles.toaster.root}
         TransitionComponent={Transition}
         message={renderContent()}
         ClickAwayListenerProps={clickAwayListenerProps}

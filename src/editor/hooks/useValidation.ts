@@ -1,71 +1,71 @@
-import { IValidationError, ValidationPriorities } from '../models';
-import { EditorContext } from '../context';
 import { useContext, useEffect } from 'react';
 import { Omit, is } from 'anux-common';
 import { useBound } from 'anux-react-utils';
+import { EditorContext } from '../context';
+import { IValidationError, ValidationPriorities } from '../models';
 
 interface IValidationConfigWithValue<T> {
-    value: T;
-    isRequired?: boolean;
+  value: T;
+  isRequired?: boolean;
 }
 
 interface IValidationConfigWithoutValue {
-    isRequired(): boolean;
+  isRequired(): boolean;
 }
 
 interface IStandardValidationConfig {
-    id: string;
-    isDisabled?: boolean;
-    isValid?(raiseError: (error: Omit<IValidationError, 'id'>) => void): void;
+  id: string;
+  isDisabled?: boolean;
+  isValid?(raiseError: (error: Omit<IValidationError, 'id'>) => void): void;
 }
 
 type IValidationConfig<T> = (IValidationConfigWithoutValue | IValidationConfigWithValue<T>) & IStandardValidationConfig;
 
 function defaultRequiredValidation<T>(value: T): boolean {
-    if (is.empty(value as any)) { return true; }
-    if (value == null) { return true; }
-    return false;
+  if (is.empty(value as unknown as string)) { return true; }
+  if (value == null) { return true; }
+  return false;
 }
 
 // @ts-ignore
-export function useValidation<T>({ id, isRequired = false, isValid, isDisabled = false, value }: IValidationConfig<T>, dependencies?: any[]): IValidationError {
-    const { setValidationErrorsFor, validationErrors } = useContext(EditorContext);
+export function useValidation<T>({ id, isRequired = false, isValid, isDisabled = false, value }: IValidationConfig<T>, dependencies?: unknown[]): IValidationError {
+  const { setValidationErrorsFor, validationErrors } = useContext(EditorContext);
 
-    isValid = is.function(isValid) ? useBound(isValid) : isValid;
-    isRequired = is.function(isRequired) ? useBound(isRequired) : isRequired;
+  isValid = is.function(isValid) ? useBound(isValid) : isValid;
+  isRequired = is.function(isRequired) ? useBound(isRequired) : isRequired;
 
-    dependencies = (dependencies || []).concat([isRequired, isDisabled, isValid, value]);
+  dependencies = (dependencies || []).concat([isRequired, isDisabled, isValid, value]);
 
-    useEffect(() => {
-        const newValidationErrors: IValidationError[] = [];
+  useEffect(() => {
+    const newValidationErrors: IValidationError[] = [];
 
-        // make sure we are not disabled (disabled components cannot cause validation errors)
-        if (!isDisabled) {
+    // make sure we are not disabled (disabled components cannot cause validation errors)
+    if (!isDisabled) {
 
-            // isRequired validation
-            if (typeof (isRequired) === 'function' || isRequired === true) {
-                const requiredCheckFunc = typeof (isRequired) === 'function' ? isRequired : defaultRequiredValidation.bind(null, value);
-                if (requiredCheckFunc() === true) {
-                    newValidationErrors.push({
-                        id,
-                        message: 'This field requires a value.',
-                        priority: ValidationPriorities.IsRequired,
-                    });
-                }
-            }
-
-            // custom validation
-            if (typeof (isValid) === 'function') { isValid(error => newValidationErrors.push({ ...error, id })); }
+      // isRequired validation
+      if (typeof (isRequired) === 'function' || isRequired === true) {
+        const requiredCheckFunc = typeof (isRequired) === 'function' ? isRequired : defaultRequiredValidation.bind(null, value);
+        if (requiredCheckFunc() === true) {
+          newValidationErrors.push({
+            id,
+            message: 'This field requires a value.',
+            priority: ValidationPriorities.IsRequired,
+          });
         }
+      }
 
-        // set the validation for this component
-        setValidationErrorsFor(id, newValidationErrors);
-    }, dependencies);
+      // custom validation
+      if (typeof (isValid) === 'function') { isValid(error => newValidationErrors.push({ ...error, id })); }
+    }
 
-    useEffect(() => () => setValidationErrorsFor(id, []), []); // clear the validation errors for this component when it is unmounted
+    // set the validation for this component
+    setValidationErrorsFor(id, newValidationErrors);
+  }, dependencies);
 
-    return validationErrors
-        .filter(error => error.id === id)
-        .orderBy(error => error.priority)
-        .firstOrDefault();
+  useEffect(() => () => setValidationErrorsFor(id, []), []); // clear the validation errors for this component when it is unmounted
+
+  return validationErrors
+    .filter(error => error.id === id)
+    .orderBy(error => error.priority)
+    .firstOrDefault();
 }

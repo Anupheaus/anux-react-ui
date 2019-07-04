@@ -1,6 +1,6 @@
 import { createContext } from 'react';
-import { INotificationResult, INotification } from './models';
 import { IMap } from 'anux-common';
+import { INotificationResult, INotification } from './models';
 
 interface INotificationsContext extends IMap<(config: INotification) => INotificationResult> { }
 

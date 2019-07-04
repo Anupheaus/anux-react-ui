@@ -1,5 +1,5 @@
-import { chain } from './chain';
 import { CSSProperties } from 'react';
+import { chain } from './chain';
 
 const materialUIBoxShadowConfig = (firstYOffset: number, firstBlur: number, firstSpread: number, secondYOffset: number,
   secondBlur: number, secondSpread: number, thirdYOffset: number, thirdBlur: number, thirdSpread: number) =>

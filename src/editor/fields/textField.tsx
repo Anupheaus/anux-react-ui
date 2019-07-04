@@ -5,49 +5,49 @@ import { useValidation, useFieldId } from '../hooks';
 import styles from './styles';
 
 interface IProps {
-    label?: string;
-    isReadOnly?: boolean;
-    isRequired?: boolean;
-    hint?: string;
-    get: string;
-    set?(newValue: string): void;
+  label?: string;
+  isReadOnly?: boolean;
+  isRequired?: boolean;
+  hint?: string;
+  get: string;
+  set?(newValue: string): void;
 }
 
 export const TextField: FC<IProps> = ({
-    label,
-    get,
-    set,
-    hint,
-    isReadOnly = false,
-    isRequired = false,
+  label,
+  get,
+  set,
+  hint,
+  isReadOnly = false,
+  isRequired = false,
 }) => {
-    isReadOnly = isReadOnly || !set;
-    const id = useFieldId('anux-text');
+  isReadOnly = isReadOnly || !set;
+  const id = useFieldId('anux-text');
 
-    const validationError = useValidation({
-        id,
-        value: get,
-        isRequired,
-        isDisabled: isReadOnly,
-    });
+  const validationError = useValidation({
+    id,
+    value: get,
+    isRequired,
+    isDisabled: isReadOnly,
+  });
 
-    const handleChanged = useBound((event: ChangeEvent) => {
-        if (isReadOnly) { return; }
-        const value: string = event.target['value'];
-        set(value);
-    });
+  const handleChanged = useBound((event: ChangeEvent) => {
+    if (isReadOnly) { return; }
+    const value: string = event.target['value'];
+    set(value);
+  });
 
-    return (
-        <CustomTag name="anux-editor-text-field" className={styles.textField}>
-            <MUITextField
-                label={label}
-                value={get}
-                placeholder={hint}
-                disabled={isReadOnly}
-                onChange={handleChanged}
-                error={!!validationError}
-                helperText={validationError && validationError.message}
-            />
-        </CustomTag>
-    );
+  return (
+    <CustomTag name="anux-editor-text-field" className={styles.textField}>
+      <MUITextField
+        label={label}
+        value={get}
+        placeholder={hint}
+        disabled={isReadOnly}
+        onChange={handleChanged}
+        error={!!validationError}
+        helperText={validationError && validationError.message}
+      />
+    </CustomTag>
+  );
 };

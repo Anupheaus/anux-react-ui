@@ -64,7 +64,7 @@ export default {
 
   toggleField: {
 
-    root: style({ ...common, ...flex.full.wrap.align({ vertical: 'center' }) }),
+    root: style({ ...common, ...flex.content.wrap.align({ vertical: 'center' }) }),
 
     label: style(flex.full),
 

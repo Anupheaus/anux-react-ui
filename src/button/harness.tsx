@@ -141,10 +141,10 @@ export const buttonHarness = createHarness({ name: 'Buttons' }, () => {
       <Button
         appearance="filled"
         variant="primary"
-        // items={[
-        //   <MenuItem key="1" onClick={handleClick}>Choice 1</MenuItem>,
-        //   <MenuItem key="2" onClick={handleClick}>Choice 2</MenuItem>,
-        // ]}
+        items={[
+          <ButtonItem key="1" onClick={handleClick} icon={<DeleteIcon />}>Choice 1</ButtonItem>,
+          <ButtonItem key="2" onClick={handleClick} icon={<DeleteIcon />}>Choice 2</ButtonItem>,
+        ]}
         onClick={handleClick}
       ><DeleteIcon /></Button>
     </div>

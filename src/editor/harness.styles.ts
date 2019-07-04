@@ -9,8 +9,8 @@ export default {
     backgroundColor: '#eee',
     border: 'solid 1px #aaa',
     ...shadows.box.ambient(2),
-    // boxShadow: '0 0 2px 1px #aaaaaa66',
     fontSize: '12pt',
+    minHeight: '800px',
   }),
 
   reports: {

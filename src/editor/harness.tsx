@@ -1,9 +1,9 @@
 import { useBound, CustomTag } from 'anux-react-utils';
-import { FunctionComponent, useContext, useState } from 'react';
-import { Button, Switch } from '@material-ui/core';
+import { FunctionComponent, useState } from 'react';
 import { createHarness } from '../../tests/harness/createHarness';
 import styles from './harness.styles';
-import { Editor, TextField, NumberField, DropdownField, AutocompleteField, DateTimeField, DateTimeModes, ToggleField, EditorContext } from './';
+import { EditorToolbar } from './toolbar';
+import { Editor, TextField, NumberField, DropdownField, AutocompleteField, DateTimeField, DateTimeModes, ToggleField } from './';
 
 interface IRecord {
   name: string;
@@ -48,19 +48,6 @@ const ReportRecord: FunctionComponent<IProps> = ({ record }) => {
   );
 };
 
-const Toolbar: FunctionComponent = () => {
-  const { cancel, save, isDirty, validationErrors, busyFields } = useContext(EditorContext);
-  return (
-    <CustomTag name="harness-editor-toolbar">
-      <Switch checked={isDirty} disabled={true} />
-      <span>{validationErrors.length}</span>&nbsp;&nbsp;&nbsp;
-      <span>{busyFields.length}</span>
-      <Button onClick={cancel}>Cancel</Button>
-      <Button onClick={save} color="primary">Save</Button>
-    </CustomTag>
-  );
-};
-
 export const editorHarness = createHarness({ name: 'Editor' }, () => {
   const [data, setData] = useState<IRecord>({
     name: 'Tony',
@@ -77,8 +64,8 @@ export const editorHarness = createHarness({ name: 'Editor' }, () => {
     { id: '125', name: 'notepad' },
   ];
 
-  const handleOnSave = useBound(async (record: IRecord) => {
-    setData(record);
+  const handleOnSave = useBound(async (newRecord: IRecord) => {
+    setData(newRecord);
     await Promise.delay(1000);
   });
 
@@ -162,7 +149,7 @@ export const editorHarness = createHarness({ name: 'Editor' }, () => {
             get={record.switch}
             set={value => update({ ...record, switch: value })}
           />
-          <Toolbar />
+          <EditorToolbar />
           <CustomTag name="harness-reports" className={styles.reports.container}>
             <ReportRecord record={data} />
             <ReportRecord record={record} />

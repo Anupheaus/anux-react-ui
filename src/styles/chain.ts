@@ -1,7 +1,7 @@
 import { IMap } from 'anux-common';
 import { CSSProperties } from 'react';
 
-type FuncType = (...args: any[]) => IChainable;
+type FuncType = (...args: unknown[]) => IChainable;
 
 export interface IChainable extends IMap<IChainable | FuncType> { }
 
@@ -11,7 +11,8 @@ type ArgumentTypes<T> = T extends (...args: infer U) => CSSProperties ? U : neve
 type ReplaceReturnType<T, TNewReturn> = (...a: ArgumentTypes<T>) => TNewReturn;
 
 export type ChainStylesDelegate = (styles: CSSProperties) => IMap;
-export type ChainFunctionDelegate = <F extends (...args: any[]) => CSSProperties, T extends IChainable>(func: (current: CSSProperties) => F, chain?: T) => ReplaceReturnType<F, T>;
+export type ChainFunctionDelegate = <F extends (...args: unknown[]) => CSSProperties,
+  T extends IChainable>(func: (current: CSSProperties) => F, chain?: T) => ReplaceReturnType<F, T>;
 
 function attachStyles(style: CSSProperties): IMap {
   const obj = {};
@@ -24,15 +25,16 @@ function attachStyles(style: CSSProperties): IMap {
   return obj;
 }
 
-function invokeFunction<F extends (...args: any[]) => CSSProperties, T extends IChainable>(func: (currentStyles: CSSProperties) => F,
-  chainResult: T = {} as T): ReplaceReturnType<F, T> {
-  const returnFunc = (styles: CSSProperties, ...args: any[]) => {
+function invokeFunction<F extends (...args: unknown[]) => CSSProperties, T extends IChainable>(func: (currentStyles: CSSProperties) => F,
+  chainResult: T = {} as unknown as T): ReplaceReturnType<F, T> {
+  const returnFunc = (styles: CSSProperties, ...args: unknown[]) => {
     styles = func(styles)(...args);
     const newChainResult = Object.merge({}, chainResult);
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     processValue(newChainResult, styles);
     return newChainResult;
   };
-  return returnFunc as any;
+  return returnFunc as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 function hideKey(value: Object, key: string): void {
@@ -60,7 +62,7 @@ function addStyles(value: Object, styles: CSSProperties): void {
 function processFunction(value: Object, key: string, styles: CSSProperties): void {
   const func = value[key];
   Object.defineProperty(value, key, {
-    value: (...args: any[]) => func(styles, ...args),
+    value: (...args: unknown[]) => func(styles, ...args),
     enumerable: false,
     configurable: true,
     writable: false,

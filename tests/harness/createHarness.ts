@@ -12,5 +12,6 @@ export function getHarnessDetails(component: FunctionComponent): IHarnessDetails
 
 export function createHarness<TComponent extends FunctionComponent>(details: IHarnessDetails, component: TComponent): TComponent {
   component[harnessDetailsSymbol] = details;
+  component.displayName = `Harness-${details.name}`;
   return component;
 }

@@ -1,8 +1,8 @@
 import { FunctionComponent, ReactNode, useState, useContext, useRef, MutableRefObject } from 'react';
 import { useBound, CustomTag } from 'anux-react-utils';
+import { IMap, InternalError } from 'anux-common';
 import { NotificationsContext, CurrentHost } from './context';
 import { INotification, NotificationModes, INotificationResult, INotificationComponentProps } from './models';
-import { IMap, InternalError } from 'anux-common';
 import { Dialog } from './dialog';
 import { Toaster } from './toaster';
 import styles from './styles';
@@ -40,7 +40,7 @@ function createNotification(NotificationComponent: FunctionComponent<INotificati
   };
 }
 
-export const NotificationsHost: FunctionComponent<IProps> = ({
+export const Notifications: FunctionComponent<IProps> = ({
   id: hostId = Math.uniqueId(),
   children,
 }) => {
@@ -51,7 +51,7 @@ export const NotificationsHost: FunctionComponent<IProps> = ({
   });
 
   const addNotification = (id: string, notification: ReactNode) => setState(s => ({ ...s, notifications: { ...s.notifications, [id]: notification } }));
-  const removeNotification = (id: string) => setState(s => ({ ...s, notifications: { ...(({ [id]: remove, ...rest }) => rest)(s.notifications) } }));
+  const removeNotification = (id: string) => setState(s => ({ ...s, notifications: { ...(({ [id]: ignore, ...rest }) => rest)(s.notifications) } }));
 
   const notify = useBound((config: INotification) => {
     const NotificationComponent = getNotificationComponent(config.mode);
@@ -60,11 +60,13 @@ export const NotificationsHost: FunctionComponent<IProps> = ({
   });
 
   return (
-    <CustomTag name="ui-notifications-host" className={styles.host} ref={hostRef}>
+    <CustomTag name="ui-notifications-host" className={styles.host}>
       <NotificationsContext.Provider value={{ ...currentHosts, [hostId]: notify, [CurrentHost]: notify }}>
         {children || null}
-        {Object.values(notifications)}
       </NotificationsContext.Provider>
+      <CustomTag name="ui-notifications-container" className={styles.container} ref={hostRef}>
+        {Object.values(notifications)}
+      </CustomTag>
     </CustomTag>
   );
 };

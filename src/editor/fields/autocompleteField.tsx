@@ -3,8 +3,8 @@ import { CustomTag, useActions } from 'anux-react-utils';
 import { FormControl, FormHelperText, LinearProgress, TextField, Paper, Popper, MenuItem } from '@material-ui/core';
 import * as Autosuggest from 'react-autosuggest';
 import * as textContent from 'react-addons-text-content';
-import { useValidation, useFieldId, useFieldBusy } from '../hooks';
 import { IRecord, is } from 'anux-common';
+import { useValidation, useFieldId, useFieldBusy } from '../hooks';
 import { ValidationPriorities } from '../models';
 import styles from './styles';
 
@@ -140,7 +140,7 @@ export const AutocompleteField: <T extends IRecord>(props: PropsWithChildren<IPr
         </Popper>
       );
     },
-    renderInput(args: any): ReactElement {
+    renderInput(args: Autosuggest.InputProps<T>): ReactElement {
       const { ref, ...other } = args;
       return (
         <TextField
@@ -151,7 +151,7 @@ export const AutocompleteField: <T extends IRecord>(props: PropsWithChildren<IPr
               setInputElement(node);
             },
           }}
-          {...other}
+          {...other as unknown}
         />
       );
     },

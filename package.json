@@ -1,6 +1,6 @@
 {
   "name": "anux-react-ui",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "main": "./dist/index.js",
   "repository": "https://github.com/Anupheaus/anux-react-ui.git",
   "author": "Anupheaus <anupheaus@gmail.com>",
@@ -9,11 +9,14 @@
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack-dev-server --config webpack.harness.js",
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint --ext .ts --ext .tsx ./src"
   },
   "files": [
-    "dist"
+    "dist",
+    "global.d.ts"
   ],
+  "types": "./global.d.ts",
   "dependencies": {
     "anux-common": "^1.0.38",
     "anux-react-utils": "^1.0.36",
@@ -38,6 +41,7 @@
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
     "@types/react-dom": "^16.8.4",
+    "@types/enzyme": "3.10.1",
     "typescript": "^3.5.2",
     "eslint": "^6.0.1",
     "eslint-plugin-react": "^7.14.2",
@@ -51,12 +55,17 @@
     "html-loader": "^0.5.5",
     "pug-html-loader": "^1.1.5",
     "ts-loader": "^6.0.4",
-    "nodemon-webpack-plugin": "^4.0.8",
     "progress-bar-webpack-plugin": "^1.12.1",
     "webpack-build-notifier": "^1.0.3",
     "html-webpack-plugin": "^3.2.0",
     "chalk": "^2.4.2",
     "eslint-plugin-import": "^2.18.0",
-    "enzyme": "^3.10.0"
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "clean-webpack-plugin": "^3.0.0",
+    "ts-node": "^8.3.0",
+    "jsdom": "^15.1.1",
+    "jsdom-global": "^3.0.2",
+    "eslint-plugin-chai-friendly": "^0.4.1"
   }
 }

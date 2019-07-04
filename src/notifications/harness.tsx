@@ -3,7 +3,7 @@ import { ChangeEvent, FunctionComponent, useState } from 'react';
 import { useBound } from 'anux-react-utils';
 import { flex, position, style } from '../styles';
 import { createHarness } from '../../tests/harness/createHarness';
-import { NotificationsHost } from './notifications';
+import { Notifications } from './notifications';
 import { NotificationModes, Variants } from './models';
 import { useNotifications } from './useNotifications';
 
@@ -150,17 +150,17 @@ const MainPanel: FunctionComponent = () => {
 export const notificationsHarness = createHarness({ name: 'Notifications' }, () => {
   return (
     <div className={styles.topLevel}>
-      <NotificationsHost id="top-level">
+      <Notifications id="top-level">
         <div className={styles.middleLevel}>
-          <NotificationsHost id="middle-level">
+          <Notifications id="middle-level">
             <div className={styles.bottomLevel}>
-              <NotificationsHost id="bottom-level">
+              <Notifications id="bottom-level">
                 <MainPanel />
-              </NotificationsHost>
+              </Notifications>
             </div>
-          </NotificationsHost>
+          </Notifications>
         </div>
-      </NotificationsHost>
+      </Notifications>
     </div>
   );
 });
