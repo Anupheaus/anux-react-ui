@@ -4,7 +4,7 @@ export default {
 
   editor: style({
     margin: '30px',
-    width: '250px',
+    width: '350px',
     padding: '5px',
     backgroundColor: '#eee',
     border: 'solid 1px #aaa',
@@ -19,7 +19,7 @@ export default {
       ...flex.content.stack,
       ...position.absolute,
       top: '30px',
-      left: '310px',
+      left: '410px',
       width: '250px',
     }),
 

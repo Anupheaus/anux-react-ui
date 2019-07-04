@@ -1,7 +1,9 @@
 import { style, flex } from '../../styles';
 
 const common = {
+  ...flex.content,
   padding: '0 0 2px',
+  width: '100%',
 
   $nest: {
     '&>div': {
