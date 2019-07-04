@@ -1,4 +1,3 @@
-import './global';
 export * from './button';
 export * from './editor';
 export * from './notifications';
