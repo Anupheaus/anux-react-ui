@@ -1,6 +1,6 @@
 {
   "name": "anux-react-ui",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "./dist/index.js",
   "repository": "https://github.com/Anupheaus/anux-react-ui.git",
   "author": "Anupheaus <anupheaus@gmail.com>",
