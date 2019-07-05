@@ -7,18 +7,21 @@ import { addDisplayName } from '../utils';
 import { EditorContext } from './context';
 import styles from './styles';
 
+const tooManyErrorsToSaveMessage = String.pluralize`There ${['is $$ field', 'are $$ fields']} with ${['an error', 'errors']}; you cannot save until ${['it has',
+  'they have']} been corrected.`;
+
+const tooBusyToSaveMessage = String.pluralize`There ${['is $$ field', 'are $$ fields']} that ${['is', 'are']} busy; you cannot save until ${['it has', 'they have']} finished.`;
+
 const tooManyErrorsToSave = (validationErrorCount: number): INotification => ({
   mode: NotificationModes.Toaster,
-  message: pluralise(validationErrorCount, [], ['is $$ field', 'an error', 'it has'], ['are $$ fields', 'errors', 'they have'], ([a, b, c]) =>
-    `There ${a} with ${b}; you cannot save until ${c} been corrected.`),
+  message: tooManyErrorsToSaveMessage(validationErrorCount),
   variant: NotificationVariants.Error,
   autoHideAfterMilliseconds: 5000,
 });
 
 const tooBusyToSave = (busyFieldCount: number): INotification => ({
   mode: NotificationModes.Toaster,
-  message: pluralise(busyFieldCount, [], ['is $$ field', 'is', 'it has'], ['are $$ fields', 'are', 'they have'], ([a, b, c]) =>
-    `There are ${a} that ${b} busy; you cannot save until ${c} finished.`),
+  message: tooBusyToSaveMessage(busyFieldCount),
   variant: NotificationVariants.Error,
   autoHideAfterMilliseconds: 5000,
 });
