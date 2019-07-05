@@ -2,7 +2,7 @@ import { FunctionComponent, useContext } from 'react';
 import { CustomTag, useBound } from 'anux-react-utils';
 import { Button } from '../button';
 import { useNotifications } from '../notifications/useNotifications';
-import { INotification, NotificationModes, Variants } from '../notifications/models';
+import { INotification, NotificationModes, NotificationVariants } from '../notifications/models';
 import { pluralise } from '../utils';
 import { EditorContext } from './context';
 import styles from './styles';
@@ -11,7 +11,7 @@ const tooManyErrorsToSave = (validationErrorCount: number): INotification => ({
   mode: NotificationModes.Toaster,
   message: pluralise(validationErrorCount, [], ['is $$ field', 'an error', 'it has'], ['are $$ fields', 'errors', 'they have'], ([a, b, c]) =>
     `There ${a} with ${b}; you cannot save until ${c} been corrected.`),
-  variant: Variants.Error,
+  variant: NotificationVariants.Error,
   autoHideAfterMilliseconds: 5000,
 });
 
@@ -19,35 +19,35 @@ const tooBusyToSave = (busyFieldCount: number): INotification => ({
   mode: NotificationModes.Toaster,
   message: pluralise(busyFieldCount, [], ['is $$ field', 'is', 'it has'], ['are $$ fields', 'are', 'they have'], ([a, b, c]) =>
     `There are ${a} that ${b} busy; you cannot save until ${c} finished.`),
-  variant: Variants.Error,
+  variant: NotificationVariants.Error,
   autoHideAfterMilliseconds: 5000,
 });
 
 const noChangesToSave = (): INotification => ({
   mode: NotificationModes.Toaster,
   message: 'There are no changes to save.',
-  variant: Variants.Info,
+  variant: NotificationVariants.Info,
   autoHideAfterMilliseconds: 4000,
 });
 
 const noChangesToCancel = (): INotification => ({
   mode: NotificationModes.Toaster,
   message: 'There are no changes to cancel.',
-  variant: Variants.Info,
+  variant: NotificationVariants.Info,
   autoHideAfterMilliseconds: 4000,
 });
 
 const changesSaved = (): INotification => ({
   mode: NotificationModes.Toaster,
   message: 'Your changes have been saved.',
-  variant: Variants.Success,
+  variant: NotificationVariants.Success,
   autoHideAfterMilliseconds: 3000,
 });
 
 const changesCancelled = (): INotification => ({
   mode: NotificationModes.Toaster,
   message: 'Your changes have been reverted.',
-  variant: Variants.Success,
+  variant: NotificationVariants.Success,
   autoHideAfterMilliseconds: 3000,
 });
 

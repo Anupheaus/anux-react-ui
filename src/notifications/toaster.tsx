@@ -9,14 +9,14 @@ import SuccessIcon from '@material-ui/icons/CheckCircle';
 import { useActions, useOnUnmount, CustomTag, useBound, useTimeout } from 'anux-react-utils';
 import { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import { ClickAwayListenerProps } from '@material-ui/core/ClickAwayListener';
-import { INotificationComponentProps, INotificationActions, Variants } from './models';
+import { INotificationComponentProps, INotificationActions, NotificationVariants } from './models';
 import styles from './styles';
 
 const anchorOrigin: SnackbarOrigin = { vertical: 'bottom', horizontal: 'center' };
 const createTransition = (onFinished: () => void) => forwardRef<unknown, TransitionProps>((props, ref) => (<Slide ref={ref} {...props} direction="up" onExited={onFinished} />));
 const closeIconStyle: CSSProperties = { fontSize: 20 };
 
-const renderIconForVariant = (variant: Variants) => {
+const renderIconForVariant = (variant: NotificationVariants) => {
   // eslint-disable-next-line react/jsx-key
   const variantIcon = [null, <ErrorIcon />, <WarningIcon />, <InfoIcon />, <SuccessIcon />, <CircularProgress size={20} className={styles.toaster.progress} />][variant];
   if (!variantIcon) { return null; }
@@ -29,7 +29,7 @@ export const Toaster: FunctionComponent<INotificationComponentProps> = ({ config
   autoHideAfterMilliseconds,
   waitOn,
   isModal,
-  variant = Variants.Standard,
+  variant = NotificationVariants.Standard,
 },
 onClose,
 }) => {

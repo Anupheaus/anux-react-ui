@@ -5,7 +5,7 @@ export enum NotificationModes {
   Toaster,
 }
 
-export enum Variants {
+export enum NotificationVariants {
   Standard,
   Error,
   Warning,
@@ -14,13 +14,13 @@ export enum Variants {
   Pending,
 }
 
-export namespace Variants {
+export namespace NotificationVariants {
 
-  export function map<T>(delegate: (variant: Variants) => T): T[] {
+  export function map<T>(delegate: (variant: NotificationVariants) => T): T[] {
     const results: T[] = [];
-    Object.keys(Variants).forEach(key => {
+    Object.keys(NotificationVariants).forEach(key => {
       const variant = parseInt(key, 10);
-      if (!isNaN(variant)) { results.push(delegate(variant as Variants)); }
+      if (!isNaN(variant)) { results.push(delegate(variant as NotificationVariants)); }
     });
     return results;
   }
@@ -38,7 +38,7 @@ export interface INotification {
   autoHideAfterMilliseconds?: number;
   mode: NotificationModes;
   isModal?: boolean;
-  variant?: Variants;
+  variant?: NotificationVariants;
   waitOn?(): Promise<void>;
   buttons?(actions: INotificationActions): ReactNode;
 }

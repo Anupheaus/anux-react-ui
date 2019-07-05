@@ -1,15 +1,15 @@
 import { CSSProperties } from '@material-ui/styles';
 import { style, position, flex } from '../styles';
-import { Variants } from './models';
+import { NotificationVariants } from './models';
 
 const variantStyles: CSSProperties[] = [];
 
-variantStyles[Variants.Standard] = {};
-variantStyles[Variants.Error] = { backgroundColor: '#d32f2f' };
-variantStyles[Variants.Warning] = { backgroundColor: '#ffa000' };
-variantStyles[Variants.Info] = { backgroundColor: '#2196f3' };
-variantStyles[Variants.Success] = { backgroundColor: '#43a047' };
-variantStyles[Variants.Pending] = { backgroundColor: '#2196f3' };
+variantStyles[NotificationVariants.Standard] = {};
+variantStyles[NotificationVariants.Error] = { backgroundColor: '#d32f2f' };
+variantStyles[NotificationVariants.Warning] = { backgroundColor: '#ffa000' };
+variantStyles[NotificationVariants.Info] = { backgroundColor: '#2196f3' };
+variantStyles[NotificationVariants.Success] = { backgroundColor: '#43a047' };
+variantStyles[NotificationVariants.Pending] = { backgroundColor: '#2196f3' };
 
 export default {
 
@@ -39,7 +39,7 @@ export default {
       pointerEvents: 'all',
     }),
 
-    content: (variant: Variants) => style({
+    content: (variant: NotificationVariants) => style({
       color: 'white',
       ...variantStyles[variant],
       minWidth: 'unset',

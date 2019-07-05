@@ -4,7 +4,7 @@ import { useBound } from 'anux-react-utils';
 import { flex, position, style } from '../styles';
 import { createHarness } from '../../tests/harness/createHarness';
 import { Notifications } from './notifications';
-import { NotificationModes, Variants } from './models';
+import { NotificationModes, NotificationVariants } from './models';
 import { useNotifications } from './useNotifications';
 
 const styles = {
@@ -65,7 +65,7 @@ const styles = {
 
 const MainPanel: FunctionComponent = () => {
   const [{ hostId, mode, isModal, isOpen, variant }, setState] = useState({
-    hostId: 'bottom-level', mode: NotificationModes.Dialog, isModal: false, isOpen: false, variant: Variants.Pending,
+    hostId: 'bottom-level', mode: NotificationModes.Dialog, isModal: false, isOpen: false, variant: NotificationVariants.Pending,
   });
   const notify = useNotifications();
 
@@ -134,7 +134,7 @@ const MainPanel: FunctionComponent = () => {
           onChange={changeVariant}
           inputProps={{ id: 'variant', name: 'variant' }}
         >
-          {Variants.map(item => (<MenuItem key={`variant-${item}`} value={item.toString()}>{Variants[item]}</MenuItem>))}
+          {NotificationVariants.map(item => (<MenuItem key={`variant-${item}`} value={item.toString()}>{NotificationVariants[item]}</MenuItem>))}
         </Select>
       </FormControl>
       <FormControlLabel
