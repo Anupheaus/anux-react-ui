@@ -7,6 +7,7 @@ import { IRecord, is } from 'anux-common';
 import { useValidation, useFieldId, useFieldBusy } from '../hooks';
 import { ValidationPriorities } from '../models';
 import { addDisplayName } from '../../utils';
+import { classNames } from '../../styles';
 import styles from './styles';
 
 interface IRenderParams<T extends IRecord> {
@@ -21,6 +22,7 @@ interface IQuery {
 }
 
 interface IProps<T extends IRecord> {
+  className?: string;
   label?: string;
   isReadOnly?: boolean;
   isRequired?: boolean;
@@ -40,6 +42,7 @@ interface IState<T extends IRecord> {
 }
 
 export const AutocompleteField: <T extends IRecord>(props: PropsWithChildren<IProps<T>>) => ReactElement<PropsWithChildren<IProps<T>>> = ({
+  className,
   label,
   get,
   set,
@@ -191,7 +194,7 @@ export const AutocompleteField: <T extends IRecord>(props: PropsWithChildren<IPr
   }), [label, hint, value]);
 
   return (
-    <CustomTag name="anux-editor-autocomplete-field" className={styles.autocompleteField.root}>
+    <CustomTag name="anux-editor-autocomplete-field" className={classNames(styles.autocompleteField.root, className)}>
       <FormControl error={!!validationError} disabled={isReadOnly || isLoading}>
         <Autosuggest
           renderInputComponent={renderInput}

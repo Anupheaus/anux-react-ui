@@ -5,9 +5,11 @@ import MomentUtils from '@date-io/moment';
 import * as moment from 'moment';
 import { useValidation, useFieldId } from '../hooks';
 import { addDisplayName } from '../../utils';
+import { classNames } from '../../styles';
 import styles from './styles';
 
 interface IProps {
+  className?: string;
   label?: string;
   isReadOnly?: boolean;
   isRequired?: boolean;
@@ -32,6 +34,7 @@ export enum DateTimeModes {
 }
 
 export const DateTimeField: FunctionComponent<IProps> = ({
+  className,
   label,
   get,
   set,
@@ -77,7 +80,7 @@ export const DateTimeField: FunctionComponent<IProps> = ({
   const renderDateTime = () => (<DateTimePicker {...commonProps} />);
 
   return (
-    <CustomTag name="anux-editor-datetime-field" className={styles.dateTimeField}>
+    <CustomTag name="anux-editor-datetime-field" className={classNames(styles.dateTimeField, className)}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
         {mode === DateTimeModes.DateOnly ? renderDateOnly() : mode === DateTimeModes.TimeOnly ? renderTimeOnly() : renderDateTime()}
       </MuiPickersUtilsProvider>

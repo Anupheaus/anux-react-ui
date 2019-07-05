@@ -5,11 +5,13 @@ import * as NumberFormatType from 'react-number-format';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase';
 import { useValidation, useFieldId } from '../hooks';
 import { addDisplayName } from '../../utils';
+import { classNames } from '../../styles';
 import styles from './styles';
 
 const NumberFormat = NumberFormatType as unknown as typeof NumberFormatType.default; // types are wrong...grrrr
 
 interface IProps {
+  className?: string;
   label?: string;
   isReadOnly?: boolean;
   isRequired?: boolean;
@@ -26,6 +28,7 @@ interface IProps {
 }
 
 export const NumberField: FC<IProps> = ({
+  className,
   label,
   get,
   set,
@@ -77,7 +80,7 @@ export const NumberField: FC<IProps> = ({
   ));
 
   return (
-    <CustomTag name="anux-editor-number-field" className={styles.numberField}>
+    <CustomTag name="anux-editor-number-field" className={classNames(styles.numberField, className)}>
       <MUITextField
         label={label}
         value={get}

@@ -2,9 +2,11 @@ import { ChangeEvent, FunctionComponent } from 'react';
 import { useBound, CustomTag } from 'anux-react-utils';
 import { Switch } from '@material-ui/core';
 import { addDisplayName } from '../../utils';
+import { classNames } from '../../styles';
 import styles from './styles';
 
 interface IProps {
+  className?: string;
   label?: string;
   isReadOnly?: boolean;
   get: boolean;
@@ -12,6 +14,7 @@ interface IProps {
 }
 
 export const ToggleField: FunctionComponent<IProps> = ({
+  className,
   label,
   get,
   set,
@@ -25,7 +28,7 @@ export const ToggleField: FunctionComponent<IProps> = ({
   });
 
   return (
-    <CustomTag name="anux-editor-toggle-field" className={styles.toggleField.root}>
+    <CustomTag name="anux-editor-toggle-field" className={classNames(styles.toggleField.root, className)}>
       <CustomTag name="anux-editor-toggle-label" className={styles.toggleField.label}>{label}</CustomTag>
       <Switch
         checked={get}

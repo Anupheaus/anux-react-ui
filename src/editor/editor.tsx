@@ -1,8 +1,9 @@
 import { ReactElement, PropsWithChildren, useState, useEffect, useRef } from 'react';
-import { useBound, areShallowEqual, CustomTag, useClasses } from 'anux-react-utils';
+import { useBound, areShallowEqual, CustomTag } from 'anux-react-utils';
 import { IMap, PromiseMaybe } from 'anux-common';
 import { Notifications } from '../notifications/notifications';
 import { addDisplayName } from '../utils';
+import { classNames } from '../styles';
 import { IValidationError } from './models';
 import { EditorContext } from './context';
 import styles from './styles';
@@ -71,10 +72,8 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
 
   const canSave = isDirty && busyFields.length === 0 && validationErrors.length === 0;
 
-  const classNames = useClasses(['anux-editor', className, styles.root]);
-
   return (
-    <CustomTag name="anux-editor" className={classNames}>
+    <CustomTag name="anux-editor" className={classNames(styles.root, className)}>
       <Notifications id={notificationHostId.current}>
         <EditorContext.Provider value={{
           record, update, isDirty, canSave, notificationHostId: notificationHostId.current,

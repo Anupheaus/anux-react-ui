@@ -5,9 +5,11 @@ import { IRecord } from 'anux-common';
 import { useValidation, useFieldBusy, useFieldId } from '../hooks';
 import { ValidationPriorities } from '../models';
 import { addDisplayName } from '../../utils';
+import { classNames } from '../../styles';
 import styles from './styles';
 
 interface IProps<T extends IRecord> {
+  className?: string;
   label?: string;
   isReadOnly?: boolean;
   isRequired?: boolean;
@@ -18,6 +20,7 @@ interface IProps<T extends IRecord> {
 }
 
 export const DropdownField: <T extends IRecord>(props: PropsWithChildren<IProps<T>>) => ReactElement<PropsWithChildren<IProps<T>>> = ({
+  className,
   label,
   get,
   set,
@@ -60,7 +63,7 @@ export const DropdownField: <T extends IRecord>(props: PropsWithChildren<IProps<
   )));
 
   return (
-    <CustomTag name="anux-editor-dropdown-field" className={styles.dropdownField}>
+    <CustomTag name="anux-editor-dropdown-field" className={classNames(styles.dropdownField, className)}>
       <FormControl error={!!validationError} disabled={isReadOnly || isLoadingItems}>
         {label ? <InputLabel htmlFor={id}>{label}</InputLabel> : null}
         <Select
