@@ -1,6 +1,7 @@
 import { FunctionComponent, ReactNode, useState, useContext, useRef, MutableRefObject } from 'react';
 import { useBound, CustomTag } from 'anux-react-utils';
 import { IMap, InternalError } from 'anux-common';
+import { addDisplayName } from '../utils';
 import { NotificationsContext, CurrentHost } from './context';
 import { INotification, NotificationModes, INotificationResult, INotificationComponentProps } from './models';
 import { Dialog } from './dialog';
@@ -70,3 +71,5 @@ export const Notifications: FunctionComponent<IProps> = ({
     </CustomTag>
   );
 };
+
+addDisplayName(Notifications, 'Notifications');

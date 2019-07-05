@@ -6,6 +6,7 @@ import * as textContent from 'react-addons-text-content';
 import { IRecord, is } from 'anux-common';
 import { useValidation, useFieldId, useFieldBusy } from '../hooks';
 import { ValidationPriorities } from '../models';
+import { addDisplayName } from '../../utils';
 import styles from './styles';
 
 interface IRenderParams<T extends IRecord> {
@@ -209,3 +210,5 @@ export const AutocompleteField: <T extends IRecord>(props: PropsWithChildren<IPr
     </CustomTag >
   );
 };
+
+addDisplayName(AutocompleteField, 'Editor-AutoComplete-Field');

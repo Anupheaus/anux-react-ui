@@ -3,7 +3,7 @@ import { CustomTag, useBound } from 'anux-react-utils';
 import { Button } from '../button';
 import { useNotifications } from '../notifications/useNotifications';
 import { INotification, NotificationModes, NotificationVariants } from '../notifications/models';
-import { pluralise } from '../utils';
+import { addDisplayName } from '../utils';
 import { EditorContext } from './context';
 import styles from './styles';
 
@@ -82,3 +82,5 @@ export const EditorToolbar: FunctionComponent<IProps> = ({ children }) => {
     </CustomTag>
   );
 };
+
+addDisplayName(EditorToolbar, 'Editor-Toolbar');

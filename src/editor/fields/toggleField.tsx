@@ -1,6 +1,7 @@
 import { ChangeEvent, FunctionComponent } from 'react';
 import { useBound, CustomTag } from 'anux-react-utils';
 import { Switch } from '@material-ui/core';
+import { addDisplayName } from '../../utils';
 import styles from './styles';
 
 interface IProps {
@@ -36,3 +37,5 @@ export const ToggleField: FunctionComponent<IProps> = ({
     </CustomTag>
   );
 };
+
+addDisplayName(ToggleField, 'Editor-Toggle-Field');

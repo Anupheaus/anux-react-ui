@@ -2,7 +2,7 @@ import { ReactElement, PropsWithChildren, useState, useEffect, useRef } from 're
 import { useBound, areShallowEqual, CustomTag, useClasses } from 'anux-react-utils';
 import { IMap, PromiseMaybe } from 'anux-common';
 import { Notifications } from '../notifications/notifications';
-import { addDisplayNameTo } from '../utils';
+import { addDisplayName } from '../utils';
 import { IValidationError } from './models';
 import { EditorContext } from './context';
 import styles from './styles';
@@ -87,4 +87,4 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
   );
 };
 
-addDisplayNameTo(Editor, 'Editor');
+addDisplayName(Editor, 'Editor');

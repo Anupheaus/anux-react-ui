@@ -3,7 +3,7 @@ import { PromiseMaybe } from 'anux-common';
 import { MenuItem } from '@material-ui/core';
 import { useBound } from 'anux-react-utils';
 import { SpeedDialAction, SpeedDialIcon } from '@material-ui/lab';
-import { addDisplayNameTo } from '../utils';
+import { addDisplayName } from '../utils';
 import { IconType, IHiddenItemProps } from './private.models';
 
 interface IProps {
@@ -48,4 +48,4 @@ export const ButtonItem: FunctionComponent<IProps> = ({
   }
 };
 
-addDisplayNameTo(ButtonItem, 'ButtonItem');
+addDisplayName(ButtonItem, 'ButtonItem');

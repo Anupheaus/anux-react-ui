@@ -2,7 +2,7 @@ import { FunctionComponent, useRef } from 'react';
 import { ButtonGroup, Button, Popper, Grow, Paper, ClickAwayListener, MenuList } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { useBound } from 'anux-react-utils';
-import { addDisplayNameTo } from '../utils';
+import { addDisplayName } from '../utils';
 import { ButtonAppearances, ButtonVariants, ButtonSizes, ButtonMenuDirections } from './models';
 import { convertAppearanceToVariant, ButtonItemType } from './private.models';
 
@@ -76,4 +76,4 @@ export const SplitButton: FunctionComponent<IProps> = ({
   )
 };
 
-addDisplayNameTo(SplitButton, 'Button_SplitButton');
+addDisplayName(SplitButton, 'Button_SplitButton');

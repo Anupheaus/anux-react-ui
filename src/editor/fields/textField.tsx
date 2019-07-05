@@ -2,6 +2,7 @@ import { FC, ChangeEvent } from 'react';
 import { useBound, CustomTag } from 'anux-react-utils';
 import { TextField as MUITextField } from '@material-ui/core';
 import { useValidation, useFieldId } from '../hooks';
+import { addDisplayName } from '../../utils';
 import styles from './styles';
 
 interface IProps {
@@ -51,3 +52,5 @@ export const TextField: FC<IProps> = ({
     </CustomTag>
   );
 };
+
+addDisplayName(TextField, 'Editor-Text-Field');

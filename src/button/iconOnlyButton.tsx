@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { CustomTag, useBound } from 'anux-react-utils';
 import { CircularProgress, IconButton, Fab } from '@material-ui/core';
 import { SpeedDial, SpeedDialIcon } from '@material-ui/lab';
-import { addDisplayNameTo } from '../utils';
+import { addDisplayName } from '../utils';
 import styles from './styles';
 import { IconType, ButtonItemType } from './private.models';
 import { ButtonAppearances, ButtonSizes, ButtonVariants, ButtonMenuDirections } from './models';
@@ -95,4 +95,4 @@ export const IconOnlyButton: FunctionComponent<IProps> = ({
 
 }
 
-addDisplayNameTo(IconOnlyButton, 'Button_IconOnlyButton');
+addDisplayName(IconOnlyButton, 'Button_IconOnlyButton');

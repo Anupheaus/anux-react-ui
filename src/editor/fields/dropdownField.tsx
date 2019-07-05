@@ -4,6 +4,7 @@ import { Select, FormControl, InputLabel, FormHelperText, Input, MenuItem, Linea
 import { IRecord } from 'anux-common';
 import { useValidation, useFieldBusy, useFieldId } from '../hooks';
 import { ValidationPriorities } from '../models';
+import { addDisplayName } from '../../utils';
 import styles from './styles';
 
 interface IProps<T extends IRecord> {
@@ -78,3 +79,5 @@ export const DropdownField: <T extends IRecord>(props: PropsWithChildren<IProps<
     </CustomTag>
   );
 };
+
+addDisplayName(DropdownField, 'Editor-DropDown-Field');

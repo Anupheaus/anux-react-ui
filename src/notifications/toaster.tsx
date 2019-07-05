@@ -9,6 +9,7 @@ import SuccessIcon from '@material-ui/icons/CheckCircle';
 import { useActions, useOnUnmount, CustomTag, useBound, useTimeout } from 'anux-react-utils';
 import { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import { ClickAwayListenerProps } from '@material-ui/core/ClickAwayListener';
+import { addDisplayName } from '../utils';
 import { INotificationComponentProps, INotificationActions, NotificationVariants } from './models';
 import styles from './styles';
 
@@ -92,3 +93,5 @@ onClose,
     </>
   );
 };
+
+addDisplayName(Toaster, 'Notifications-Toaster');

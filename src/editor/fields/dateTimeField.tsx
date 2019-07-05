@@ -4,6 +4,7 @@ import { DatePicker, TimePicker, DateTimePicker, DatePickerProps, TimePickerProp
 import MomentUtils from '@date-io/moment';
 import * as moment from 'moment';
 import { useValidation, useFieldId } from '../hooks';
+import { addDisplayName } from '../../utils';
 import styles from './styles';
 
 interface IProps {
@@ -83,3 +84,5 @@ export const DateTimeField: FunctionComponent<IProps> = ({
     </CustomTag>
   );
 };
+
+addDisplayName(DateTimeField, 'Editor-DateTime-Field');

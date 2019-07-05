@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode, useState, useMemo, cloneElement } from 'react';
 import { PromiseMaybe } from 'anux-common';
 import { CustomTag, useBound } from 'anux-react-utils';
-import { addDisplayNameTo } from '../utils';
+import { addDisplayName } from '../utils';
 import { ButtonBadge } from './badge';
 import { IHiddenBadgeProps, IconType, ButtonItemType, IBadgeProps, IHiddenItemProps, ButtonBadgeType } from './private.models';
 import { IconOnlyButton } from './iconOnlyButton';
@@ -157,4 +157,4 @@ export const Button: FunctionComponent<IProps> = ({
   );
 };
 
-addDisplayNameTo(Button, 'Button');
+addDisplayName(Button, 'Button');

@@ -3,6 +3,7 @@ import { Dialog as MUIDialog, DialogTitle, DialogContent, DialogContentText, Dia
 import { TransitionProps } from '@material-ui/core/transitions';
 import { useActions, useOnUnmount, useTimeout, useBound } from 'anux-react-utils';
 import { BackdropProps } from '@material-ui/core/Backdrop';
+import { addDisplayName } from '../utils';
 import { INotificationComponentProps, INotificationActions } from './models';
 import styles from './styles';
 
@@ -58,3 +59,5 @@ export const Dialog: FunctionComponent<INotificationComponentProps> = ({ config:
     </MUIDialog>
   );
 };
+
+addDisplayName(Dialog, 'Notifications - Dialog');
