@@ -644,10 +644,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-anux-common@^1.0.36, anux-common@^1.0.38:
-  version "1.0.38"
-  resolved "https://registry.yarnpkg.com/anux-common/-/anux-common-1.0.38.tgz#48820bf55cd83f84314428c701df6f964b871cb6"
-  integrity sha512-CsX8gouXzcdqftuy3T29HdH7pS0JNFqGWjDhmhj5+XBjL3HFbxNtZ4M9V9aQmgl+PTozujdVK5z/V7F0KLSwLw==
+anux-common@^1.0.39:
+  version "1.0.39"
+  resolved "https://registry.yarnpkg.com/anux-common/-/anux-common-1.0.39.tgz#d9addb9b0403b1198d71645475511a9973a037da"
+  integrity sha512-dhGHnHO2fTDFO+BaZMrrf4I77JD2+QAeLGunkRvgK51WuvHXH7pGWXz6hLqbtCSeaAJG0ZVf2ofoHt8jop0K3Q==
   dependencies:
     "@types/datejs" "^0.0.30"
     "@types/numeral" "^0.0.25"
@@ -658,12 +658,12 @@ anux-common@^1.0.36, anux-common@^1.0.38:
     numeral "^2.0.6"
     uuid "^3.3.2"
 
-anux-react-utils@^1.0.36:
-  version "1.0.36"
-  resolved "https://registry.yarnpkg.com/anux-react-utils/-/anux-react-utils-1.0.36.tgz#69c131e740859d4f7f61f3c34e41a79c277f3a76"
-  integrity sha512-FCjd8DD0f4DipHz6ASEtH6NsoYR1iXXgLVHQjzl72kDLjZIryG5BsXOQBV6J37zX92WRDY+zblpHvNlFMlg5iA==
+anux-react-utils@^1.0.37:
+  version "1.0.37"
+  resolved "https://registry.yarnpkg.com/anux-react-utils/-/anux-react-utils-1.0.37.tgz#dcdd18b544922ee5481fd3428e26e462b8422689"
+  integrity sha512-Zv1FBwPAnbac68oGtkFsuqeyGzoY5zVbUKT7Tu8Lkai+crWdDfoD23B0b8Ds2GsBzr0m4T/zG8LQgE6WDv4sNQ==
   dependencies:
-    anux-common "^1.0.36"
+    anux-common "^1.0.39"
     axios "0.18.0"
     react "^16.8.6"
     react-dom "^16.8.6"
@@ -2676,10 +2676,10 @@ fragment-cache@^0.2.1:
   dependencies:
     map-cache "^0.2.2"
 
-free-style@2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/free-style/-/free-style-2.5.1.tgz#5e3f684c470d3bba7e4dbb43524e0a08917e873c"
-  integrity sha512-X7dtUSTrlS1KRQBtiQ618NWIRDdRgD91IeajKCSh0fgTqArSixv+n3ea6F/OSvrvg14tPLR+yCq2s+O602+pRw==
+free-style@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/free-style/-/free-style-2.6.1.tgz#6af512568291195854842cbbaacd95578a6a9a8b"
+  integrity sha512-uaVA8e57tvhrFKAl6x32SGIrGFBoeTAFtfHDzWxjPhiXQiUxOI6EEdEReRkjNO2H9XcdMJXXEnMHw8Q7iMYLbw==
 
 fresh@0.5.2:
   version "0.5.2"
@@ -6465,13 +6465,13 @@ typescript@^3.5.2:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.5.2.tgz#a09e1dc69bc9551cadf17dba10ee42cf55e5d56c"
   integrity sha512-7KxJovlYhTX5RaRbUdkAXN1KUZ8PwWlTzQdHV6xNqvuFOs7+WBo10TQUqT19Q/Jz2hk5v9TQDIhyLhhJY4p5AA==
 
-typestyle@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/typestyle/-/typestyle-2.0.2.tgz#e22f24f5d7e8506aa36b1fd3606824ac16291104"
-  integrity sha512-2nKRvMFE12MYudRu0UxYryZw3vbSOnZyuZiGTblYKIEi/U+VaH/hThv69AWCu89V7qc9uqrcQme1GCXmObomuQ==
+typestyle@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/typestyle/-/typestyle-2.0.3.tgz#ab2af57dfc4d88974b113fe6a964b531e6141a9c"
+  integrity sha512-F50kKkqIjK5PWyalj3xaqAIopjzCp/MIBD7BW3Hkc2PQhVhRcy/KX0l1uv3+KNGy3xAOIWUxzr8ZibTChp88Ww==
   dependencies:
     csstype "^2.4.0"
-    free-style "2.5.1"
+    free-style "2.6.1"
 
 uglify-js@3.4.x:
   version "3.4.10"
