@@ -9,6 +9,7 @@ interface IProps {
   className?: string;
   label?: string;
   isReadOnly?: boolean;
+  applyShrunkenLabel?: boolean;
   get: boolean;
   set?(newValue: boolean): void;
 }
@@ -19,6 +20,7 @@ export const ToggleField: FunctionComponent<IProps> = ({
   get,
   set,
   isReadOnly = false,
+  applyShrunkenLabel = false,
 }) => {
   isReadOnly = isReadOnly || !set;
 
@@ -28,8 +30,8 @@ export const ToggleField: FunctionComponent<IProps> = ({
   });
 
   return (
-    <CustomTag name="anux-editor-toggle-field" className={classNames(styles.toggleField.root, className)}>
-      <CustomTag name="anux-editor-toggle-label" className={styles.toggleField.label}>{label}</CustomTag>
+    <CustomTag name="anux-editor-toggle-field" className={classNames(styles.toggleField.root(applyShrunkenLabel), className)}>
+      <CustomTag name="anux-editor-toggle-label" className={styles.toggleField.label(applyShrunkenLabel)}>{label}</CustomTag>
       <Switch
         checked={get}
         disabled={isReadOnly}

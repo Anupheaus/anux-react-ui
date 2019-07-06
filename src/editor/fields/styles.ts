@@ -1,4 +1,4 @@
-import { style, flex } from '../../styles';
+import { style, flex, position } from '../../styles';
 
 const common = {
   ...flex.content,
@@ -66,9 +66,21 @@ export default {
 
   toggleField: {
 
-    root: style({ ...common, ...flex.content.wrap.align({ vertical: 'center' }) }),
+    root: (shrunkenLabel: boolean) => style({
+      ...common,
+      ...flex.content.wrap.align({ vertical: shrunkenLabel ? 'flex-end' : 'center' }),
+      ...position.relative,
+      ...(shrunkenLabel ? { minHeight: '50px' } : {}),
+    }),
 
-    label: style(flex.full),
+    label: (shrunken: boolean) => style({
+      ...flex.full,
+      ...(shrunken ? {
+        ...position.absolute.full,
+        color: '#0000008a',
+        fontSize: '0.75em',
+      } : {}),
+    }),
 
     span: style(flex.content),
 

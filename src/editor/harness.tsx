@@ -89,6 +89,11 @@ export const editorHarness = createHarness({ name: 'Editor' }, () => {
             label="Text Field (Read Only)"
             get={record.name}
           />
+          <TextField
+            label="Text Field (shrunken label)"
+            get={''}
+            applyShrunkenLabel
+          />
           <NumberField
             label="Number Field"
             get={record.age}
@@ -146,6 +151,12 @@ export const editorHarness = createHarness({ name: 'Editor' }, () => {
           />
           <ToggleField
             label="Switch Field"
+            get={record.switch}
+            set={value => update({ ...record, switch: value })}
+          />
+          <ToggleField
+            label="Switch Field"
+            applyShrunkenLabel={true}
             get={record.switch}
             set={value => update({ ...record, switch: value })}
           />
