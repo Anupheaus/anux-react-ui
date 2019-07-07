@@ -1,4 +1,5 @@
-import { style, flex, position, shadows } from '../styles';
+import { flex, position, shadows } from '../styles';
+import { style } from '../../tests/harness/styles';
 
 export default {
 

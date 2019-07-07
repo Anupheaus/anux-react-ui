@@ -1,8 +1,9 @@
 import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch } from '@material-ui/core';
 import { ChangeEvent, FunctionComponent, useState } from 'react';
 import { useBound } from 'anux-react-utils';
-import { flex, position, style } from '../styles';
+import { flex, position } from '../styles';
 import { createHarness } from '../../tests/harness/createHarness';
+import { style } from '../../tests/harness/styles';
 import { Notifications } from './notifications';
 import { NotificationModes, NotificationVariants } from './models';
 import { useNotifications } from './useNotifications';

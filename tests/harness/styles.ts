@@ -1,4 +1,7 @@
-import { style, flex, shadows } from '../../src/styles';
+import { initPage, createStyle, flex, shadows } from '../../src/styles';
+
+initPage('app');
+export const style = createStyle({ name: 'anux-react-ui-harness', priority: 3 });
 
 export default {
   root: style({

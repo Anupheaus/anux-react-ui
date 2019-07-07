@@ -1,7 +1,8 @@
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useBound } from 'anux-react-utils';
-import { style, flex } from '../styles';
+import { flex } from '../styles';
 import { createHarness } from '../../tests/harness/createHarness';
+import { style } from '../../tests/harness/styles';
 import { Button } from './button';
 import { ButtonBadge } from './badge';
 import { ButtonItem } from './item';

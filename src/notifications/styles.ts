@@ -1,5 +1,6 @@
 import { CSSProperties } from '@material-ui/styles';
-import { style, position, flex } from '../styles';
+import { position, flex } from '../styles';
+import { style } from '../styles/uiStyle';
 import { NotificationVariants } from './models';
 
 const variantStyles: CSSProperties[] = [];

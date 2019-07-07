@@ -1,4 +1,5 @@
-import { style, flex, position } from '../../styles';
+import { flex, position } from '../../styles';
+import { style } from '../../styles/uiStyle';
 
 const common = {
   ...flex.content,

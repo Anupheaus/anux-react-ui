@@ -1,4 +1,5 @@
-import { style, flex } from '../styles';
+import { flex } from '../styles';
+import { style } from '../styles/uiStyle';
 
 export default {
 
