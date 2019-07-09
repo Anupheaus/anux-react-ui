@@ -1,5 +1,6 @@
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useBound } from 'anux-react-utils';
+import { Tooltip } from '../tooltip';
 import { flex } from '../styles';
 import { createHarness } from '../../tests/harness/createHarness';
 import { style } from '../../tests/harness/styles';
@@ -14,6 +15,7 @@ const styles = {
     alignItems: 'self-start',
     padding: '20px',
     justifyContent: 'space-evenly',
+    flexWrap: 'wrap',
 
     $nest: {
       '&>*': {
@@ -48,10 +50,12 @@ export const buttonHarness = createHarness({ name: 'Buttons' }, () => {
         variant="secondary"
         onClick={handleClick}
       >Badge (number direct)</Button>
-      <Button
-        badge={<span>18</span>}
-        onClick={handleClick}
-      >Badge (content direct)</Button>
+      <Tooltip title="With tooltip">
+        <Button
+          badge={<span>18</span>}
+          onClick={handleClick}
+        >Badge (content direct)</Button>
+      </Tooltip>
       <Button
         badge={<ButtonBadge><span>15</span></ButtonBadge>}
         appearance="filled"

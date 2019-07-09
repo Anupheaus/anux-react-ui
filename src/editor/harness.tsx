@@ -7,6 +7,7 @@ import { Editor, TextField, NumberField, DropdownField, AutocompleteField, DateT
 
 interface IRecord {
   name: string;
+  emptyString: string;
   age: number;
   sourceId: string;
   invalidSourceId: string;
@@ -51,6 +52,7 @@ const ReportRecord: FunctionComponent<IProps> = ({ record }) => {
 export const editorHarness = createHarness({ name: 'Editor' }, () => {
   const [data, setData] = useState<IRecord>({
     name: 'Tony',
+    emptyString: '',
     age: 38,
     sourceId: '123',
     invalidSourceId: '200',
@@ -88,6 +90,11 @@ export const editorHarness = createHarness({ name: 'Editor' }, () => {
           <TextField
             label="Text Field (Read Only)"
             get={record.name}
+          />
+          <TextField
+            get={record.emptyString}
+            set={value => update({ ...record, emptyString: value })}
+            hint="This is my hint!"
           />
           <TextField
             label="Text Field (shrunken label)"

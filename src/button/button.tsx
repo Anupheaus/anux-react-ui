@@ -1,7 +1,7 @@
-import { FunctionComponent, ReactNode, useState, useMemo, cloneElement } from 'react';
+import { ReactNode, useState, useMemo, cloneElement, forwardRef } from 'react';
 import { PromiseMaybe } from 'anux-common';
 import { CustomTag, useBound } from 'anux-react-utils';
-import { addDisplayName } from '../utils';
+// import { addDisplayName } from '../utils';
 import { ButtonBadge } from './badge';
 import { IHiddenBadgeProps, IconType, ButtonItemType, IBadgeProps, IHiddenItemProps, ButtonBadgeType } from './private.models';
 import { IconOnlyButton } from './iconOnlyButton';
@@ -34,10 +34,11 @@ interface IProps {
   className?: string;
   items?: ButtonItemType[];
   menuDirection?: ButtonMenuDirections;
+  children?: ReactNode;
   onClick?(): PromiseMaybe;
 }
 
-export const Button: FunctionComponent<IProps> = ({
+export const Button = forwardRef<HTMLElement, IProps>(({
   badge,
   icon,
   iconPosition = 'left',
@@ -49,7 +50,7 @@ export const Button: FunctionComponent<IProps> = ({
   items = [],
   onClick,
   children,
-}) => {
+}, ref) => {
   const [isInProgress, setInProgress] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -151,10 +152,10 @@ export const Button: FunctionComponent<IProps> = ({
   }, [badge, variant, className, buttonRendering]);
 
   return (
-    <CustomTag name="ui-button">
+    <CustomTag name="ui-button" ref={ref}>
       {finalRendering}
     </CustomTag>
   );
-};
+});
 
-addDisplayName(Button, 'Button');
+// addDisplayName(Button, 'Button');
