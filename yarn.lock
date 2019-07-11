@@ -651,10 +651,10 @@ anux-common@^1.0.39:
     numeral "^2.0.6"
     uuid "^3.3.2"
 
-anux-react-utils@^1.0.41:
-  version "1.0.41"
-  resolved "https://registry.yarnpkg.com/anux-react-utils/-/anux-react-utils-1.0.41.tgz#f31c8cdc78a3a537ea48900fda1c3d792fa6c219"
-  integrity sha512-yYC6ZEtDI6dU0KiuQmW2vMZu7+jdc+i+m9GkfwfwBbX2wN/FXye/be3S+92sVUZp+4pC3JkN/fLZV3kk+Aj8cQ==
+anux-react-utils@^1.0.42:
+  version "1.0.42"
+  resolved "https://registry.yarnpkg.com/anux-react-utils/-/anux-react-utils-1.0.42.tgz#7cafc88ad263d086e001153e6bcb366f50a7a420"
+  integrity sha512-Iciefe1dKwPaCO92wz16GSDrMm+c5g0re4FobFRnOcXpQDOs4Hp19i8ldiwUNn7sXqf1sRz87Irm4HUgfijRrw==
   dependencies:
     anux-common "^1.0.39"
     axios "0.18.0"
