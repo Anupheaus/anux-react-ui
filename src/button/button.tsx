@@ -11,9 +11,8 @@ import { SplitButton } from './split';
 
 
 const isBadgeElement = (badge: ButtonBadgeType | number | boolean): badge is ButtonBadgeType => {
-  if (typeof (badge) !== 'object' || badge == null) { return false; }
-  if (typeof (badge.type) !== 'function') { return false; }
-  if (badge.type !== ButtonBadge) { return false; }
+  if (typeof (badge) !== 'object' || badge == null || badge.type == null) { return false; }
+  if (badge.type.displayName !== 'Anux-React-UI-Button-Badge') { return false; }
   return true;
 };
 
