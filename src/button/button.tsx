@@ -1,7 +1,7 @@
-import { ReactNode, useState, useMemo, cloneElement, forwardRef } from 'react';
+import { ReactNode, useState, useMemo, cloneElement } from 'react';
 import { PromiseMaybe } from 'anux-common';
 import { CustomTag, useBound } from 'anux-react-utils';
-// import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { ButtonBadge } from './badge';
 import { IHiddenBadgeProps, IconType, ButtonItemType, IBadgeProps, IHiddenItemProps, ButtonBadgeType } from './private.models';
 import { IconOnlyButton } from './iconOnlyButton';
@@ -38,7 +38,7 @@ interface IProps {
   onClick?(): PromiseMaybe;
 }
 
-export const Button = forwardRef<HTMLElement, IProps>(({
+export const Button = anuxUIFunctionComponent<IProps>('Button', ({
   badge,
   icon,
   iconPosition = 'left',
@@ -121,6 +121,7 @@ export const Button = forwardRef<HTMLElement, IProps>(({
       appearance={appearance}
       variant={variant}
       size={size}
+      ref={ref}
       renderMenuItems={renderSplitMenuItems}
       isMenuOpen={isMenuOpen}
       menuDirection={menuDirection}
@@ -157,5 +158,3 @@ export const Button = forwardRef<HTMLElement, IProps>(({
     </CustomTag>
   );
 });
-
-// addDisplayName(Button, 'Button');

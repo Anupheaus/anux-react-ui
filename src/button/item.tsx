@@ -1,17 +1,17 @@
-import { FunctionComponent } from 'react';
 import { PromiseMaybe } from 'anux-common';
 import { MenuItem } from '@material-ui/core';
 import { useBound } from 'anux-react-utils';
 import { SpeedDialAction, SpeedDialIcon } from '@material-ui/lab';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { IconType, IHiddenItemProps } from './private.models';
 
 interface IProps {
   icon?: IconType;
   onClick(): PromiseMaybe;
+  ref?: never;
 }
 
-export const ButtonItem: FunctionComponent<IProps> = ({
+export const ButtonItem = anuxUIFunctionComponent<IProps>('Button-Item', ({
   icon,
   onClick,
   children,
@@ -46,6 +46,4 @@ export const ButtonItem: FunctionComponent<IProps> = ({
       />
     );
   }
-};
-
-addDisplayName(ButtonItem, 'ButtonItem');
+});

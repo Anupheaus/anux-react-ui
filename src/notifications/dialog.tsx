@@ -1,9 +1,9 @@
-import { FunctionComponent, useState, forwardRef, useMemo } from 'react';
+import { useState, forwardRef, useMemo } from 'react';
 import { Dialog as MUIDialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Zoom, Button } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { useActions, useOnUnmount, useTimeout, useBound } from 'anux-react-utils';
 import { BackdropProps } from '@material-ui/core/Backdrop';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { INotificationComponentProps, INotificationActions } from './models';
 import styles from './styles';
 
@@ -11,7 +11,18 @@ const createTransition = (onFinished: () => void) => forwardRef<unknown, Transit
 
 const backdropProps: Partial<BackdropProps> = { style: { position: 'absolute' } };
 
-export const Dialog: FunctionComponent<INotificationComponentProps> = ({ config: { title, message, buttons, autoHideAfterMilliseconds, waitOn, isModal }, host, onClose }) => {
+export const Dialog = anuxUIFunctionComponent<INotificationComponentProps>('Notifications - Dialog', ({
+  config: {
+    title,
+    message,
+    buttons,
+    autoHideAfterMilliseconds,
+    waitOn,
+    isModal
+  },
+  host,
+  onClose
+}, ref) => {
   const [isOpen, setOpen] = useState(true);
 
   const actions = useActions<INotificationActions>({
@@ -52,12 +63,11 @@ export const Dialog: FunctionComponent<INotificationComponentProps> = ({ config:
       onEscapeKeyDown={handleBackdropClose}
       container={host.current}
       BackdropProps={backdropProps}
+      ref={ref}
     >
       {renderTitle()}
       {renderContent()}
       {renderButtons()}
     </MUIDialog>
   );
-};
-
-addDisplayName(Dialog, 'Notifications - Dialog');
+});

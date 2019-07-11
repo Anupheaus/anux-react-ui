@@ -1,10 +1,10 @@
-import { FunctionComponent, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useBound, CustomTag } from 'anux-react-utils';
 import { DatePicker, TimePicker, DateTimePicker, DatePickerProps, TimePickerProps, DateTimePickerProps, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import * as moment from 'moment';
 import { useValidation, useFieldId } from '../hooks';
-import { addDisplayName } from '../../utils';
+import { anuxUIFunctionComponent } from '../../utils';
 import { classNames } from '../../styles';
 import styles from './styles';
 
@@ -33,7 +33,7 @@ export enum DateTimeModes {
   TimeOnly,
 }
 
-export const DateTimeField: FunctionComponent<IProps> = ({
+export const DateTimeField = anuxUIFunctionComponent<IProps>('Editor-DateTime-Field', ({
   className,
   label,
   get,
@@ -43,7 +43,7 @@ export const DateTimeField: FunctionComponent<IProps> = ({
   isRequired = false,
   mode = DateTimeModes.DateTime,
   views,
-}) => {
+}, ref) => {
   isReadOnly = isReadOnly || !set;
   const id = useFieldId('anux-dateTime');
 
@@ -80,12 +80,10 @@ export const DateTimeField: FunctionComponent<IProps> = ({
   const renderDateTime = () => (<DateTimePicker {...commonProps} />);
 
   return (
-    <CustomTag name="anux-editor-datetime-field" className={classNames(styles.dateTimeField, className)}>
+    <CustomTag name="anux-editor-datetime-field" ref={ref} className={classNames(styles.dateTimeField, className)}>
       <MuiPickersUtilsProvider utils={MomentUtils}>
         {mode === DateTimeModes.DateOnly ? renderDateOnly() : mode === DateTimeModes.TimeOnly ? renderTimeOnly() : renderDateTime()}
       </MuiPickersUtilsProvider>
     </CustomTag>
   );
-};
-
-addDisplayName(DateTimeField, 'Editor-DateTime-Field');
+});

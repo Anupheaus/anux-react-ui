@@ -1,10 +1,10 @@
-import { FC, ChangeEvent } from 'react';
+import { ChangeEvent } from 'react';
 import { useBound, CustomTag } from 'anux-react-utils';
 import { TextField as MUITextField } from '@material-ui/core';
 import * as NumberFormatType from 'react-number-format';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase';
 import { useValidation, useFieldId } from '../hooks';
-import { addDisplayName } from '../../utils';
+import { anuxUIFunctionComponent } from '../../utils';
 import { classNames } from '../../styles';
 import styles from './styles';
 
@@ -27,7 +27,7 @@ interface IProps {
   set?(newValue: number): void;
 }
 
-export const NumberField: FC<IProps> = ({
+export const NumberField = anuxUIFunctionComponent<IProps>('Editor-Number-Field', ({
   className,
   label,
   get,
@@ -93,6 +93,4 @@ export const NumberField: FC<IProps> = ({
       />
     </CustomTag>
   );
-};
-
-addDisplayName(NumberField, 'Editor-Number-Field');
+});

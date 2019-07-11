@@ -1,9 +1,9 @@
-import { FC, ChangeEvent, useMemo } from 'react';
+import { ChangeEvent, useMemo } from 'react';
 import { useBound, CustomTag } from 'anux-react-utils';
 import { TextField as MUITextField } from '@material-ui/core';
 import { InputLabelProps } from '@material-ui/core/InputLabel';
 import { useValidation, useFieldId } from '../hooks';
-import { addDisplayName } from '../../utils';
+import { anuxUIFunctionComponent } from '../../utils';
 import { classNames } from '../../styles';
 import styles from './styles';
 
@@ -18,7 +18,7 @@ interface IProps {
   set?(newValue: string): void;
 }
 
-export const TextField: FC<IProps> = ({
+export const TextField = anuxUIFunctionComponent<IProps>('Editor-Text-Field', ({
   className,
   label,
   get,
@@ -27,7 +27,7 @@ export const TextField: FC<IProps> = ({
   isReadOnly = false,
   isRequired = false,
   applyShrunkenLabel = false,
-}) => {
+}, ref) => {
   isReadOnly = isReadOnly || !set;
   const id = useFieldId('anux-text');
 
@@ -47,7 +47,7 @@ export const TextField: FC<IProps> = ({
   const inputProps = useMemo<InputLabelProps>(() => applyShrunkenLabel ? { shrink: true } : {}, [applyShrunkenLabel]);
 
   return (
-    <CustomTag name="anux-editor-text-field" className={classNames(styles.textField, className)}>
+    <CustomTag name="anux-editor-text-field" ref={ref} className={classNames(styles.textField, className)}>
       <MUITextField
         label={label}
         value={get}
@@ -60,6 +60,4 @@ export const TextField: FC<IProps> = ({
       />
     </CustomTag>
   );
-};
-
-addDisplayName(TextField, 'Editor-Text-Field');
+});

@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, forwardRef, useMemo, CSSProperties } from 'react';
+import { useState, forwardRef, useMemo, CSSProperties } from 'react';
 import { Snackbar, SnackbarContent, Slide, IconButton, CircularProgress, Backdrop } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
 import CloseIcon from '@material-ui/icons/Close';
@@ -9,7 +9,7 @@ import SuccessIcon from '@material-ui/icons/CheckCircle';
 import { useActions, useOnUnmount, CustomTag, useBound, useTimeout } from 'anux-react-utils';
 import { SnackbarOrigin } from '@material-ui/core/Snackbar';
 import { ClickAwayListenerProps } from '@material-ui/core/ClickAwayListener';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { INotificationComponentProps, INotificationActions, NotificationVariants } from './models';
 import styles from './styles';
 
@@ -24,16 +24,17 @@ const renderIconForVariant = (variant: NotificationVariants) => {
   return (<CustomTag name="ui-toaster-icon" className={styles.toaster.message.icon}>{variantIcon}</CustomTag>);
 };
 
-export const Toaster: FunctionComponent<INotificationComponentProps> = ({ config: {
-  message,
-  buttons,
-  autoHideAfterMilliseconds,
-  waitOn,
-  isModal,
-  variant = NotificationVariants.Standard,
-},
-onClose,
-}) => {
+export const Toaster = anuxUIFunctionComponent<INotificationComponentProps>('Notifications - Toaster', ({
+  config: {
+    message,
+    buttons,
+    autoHideAfterMilliseconds,
+    waitOn,
+    isModal,
+    variant = NotificationVariants.Standard,
+  },
+  onClose,
+}, ref) => {
   const [isOpen, setOpen] = useState(true);
 
   const actions = useActions<INotificationActions>({
@@ -68,7 +69,7 @@ onClose,
   useOnUnmount(actions.close);
 
   return (
-    <>
+    <CustomTag name="ui-notifications-toaster" ref={ref} className={styles.toaster.root}>
       <Backdrop
         className={styles.toaster.backdrop(isModal)}
         open={isOpen}
@@ -76,7 +77,7 @@ onClose,
       />
       <Snackbar
         open={isOpen}
-        className={styles.toaster.root}
+        className={styles.toaster.snackbar}
         TransitionComponent={Transition}
         message={renderContent()}
         ClickAwayListenerProps={clickAwayListenerProps}
@@ -90,8 +91,6 @@ onClose,
           action={renderButtons()}
         />
       </Snackbar>
-    </>
+    </CustomTag>
   );
-};
-
-addDisplayName(Toaster, 'Notifications-Toaster');
+});

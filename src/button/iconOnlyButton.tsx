@@ -1,8 +1,7 @@
-import { FunctionComponent } from 'react';
 import { CustomTag, useBound } from 'anux-react-utils';
 import { CircularProgress, IconButton, Fab } from '@material-ui/core';
 import { SpeedDial, SpeedDialIcon } from '@material-ui/lab';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import styles from './styles';
 import { IconType, ButtonItemType } from './private.models';
 import { ButtonAppearances, ButtonSizes, ButtonVariants, ButtonMenuDirections } from './models';
@@ -22,7 +21,7 @@ interface IProps {
   onSetMenu(isMenuOpen: boolean): void;
 }
 
-export const IconOnlyButton: FunctionComponent<IProps> = ({
+export const IconOnlyButton = anuxUIFunctionComponent<IProps>('Editor-Button-IconOnly', ({
   isInProgress,
   isMenuOpen,
   variant,
@@ -93,6 +92,4 @@ export const IconOnlyButton: FunctionComponent<IProps> = ({
 
   return appearance === 'flat' ? renderFlatIconButton() : renderFilledIconButton();
 
-}
-
-addDisplayName(IconOnlyButton, 'Button_IconOnlyButton');
+});

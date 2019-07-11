@@ -1,8 +1,8 @@
-import { FunctionComponent, useRef } from 'react';
+import { useRef } from 'react';
 import { ButtonGroup, Button, Popper, Grow, Paper, ClickAwayListener, MenuList } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { useBound } from 'anux-react-utils';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { ButtonAppearances, ButtonVariants, ButtonSizes, ButtonMenuDirections } from './models';
 import { convertAppearanceToVariant, ButtonItemType } from './private.models';
 
@@ -16,7 +16,7 @@ interface IProps {
   onSetMenu(isMenuOpen: boolean): void;
 }
 
-export const SplitButton: FunctionComponent<IProps> = ({
+export const SplitButton = anuxUIFunctionComponent<IProps>('Button-Split', ({
   appearance,
   variant,
   isMenuOpen,
@@ -26,7 +26,7 @@ export const SplitButton: FunctionComponent<IProps> = ({
   onSetMenu,
   children,
 }) => {
-  const menuAnchorRef = useRef<HTMLDivElement>()
+  const menuAnchorRef = useRef<HTMLDivElement>();
 
   const openMenu = useBound(() => onSetMenu(true));
   const closeMenu = useBound(() => onSetMenu(false));
@@ -74,6 +74,4 @@ export const SplitButton: FunctionComponent<IProps> = ({
       </Popper>
     </>
   )
-};
-
-addDisplayName(SplitButton, 'Button_SplitButton');
+});

@@ -1,9 +1,9 @@
-import { FunctionComponent, useContext } from 'react';
+import { useContext } from 'react';
 import { CustomTag, useBound } from 'anux-react-utils';
 import { Button } from '../button';
 import { useNotifications } from '../notifications/useNotifications';
 import { INotification, NotificationModes, NotificationVariants } from '../notifications/models';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { classNames } from '../styles';
 import { EditorContext } from './context';
 import styles from './styles';
@@ -59,10 +59,10 @@ interface IProps {
   className?: string;
 }
 
-export const EditorToolbar: FunctionComponent<IProps> = ({
+export const EditorToolbar = anuxUIFunctionComponent<IProps>('Editor-Toolbar', ({
   className,
   children,
-}) => {
+}, ref) => {
   const { cancel, save, notificationHostId, isDirty, validationErrors, busyFields } = useContext(EditorContext);
   const notify = useNotifications();
 
@@ -83,12 +83,10 @@ export const EditorToolbar: FunctionComponent<IProps> = ({
   });
 
   return (
-    <CustomTag name="anux-editor-toolbar" className={classNames(styles.toolbar.root, className)}>
+    <CustomTag name="anux-editor-toolbar" ref={ref} className={classNames(styles.toolbar.root, className)}>
       <CustomTag name="anux-editor-toolbar-custom" className={styles.toolbar.customContainer}>{children || null}</CustomTag>
       <Button onClick={doCancel}>Cancel</Button>
       <Button onClick={doSave} variant="primary">Save</Button>
     </CustomTag>
   );
-};
-
-addDisplayName(EditorToolbar, 'Editor-Toolbar');
+});

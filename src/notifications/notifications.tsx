@@ -1,7 +1,7 @@
 import { FunctionComponent, ReactNode, useState, useContext, useRef, MutableRefObject } from 'react';
 import { useBound, CustomTag } from 'anux-react-utils';
 import { IMap, InternalError } from 'anux-common';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { NotificationsContext, CurrentHost } from './context';
 import { INotification, NotificationModes, INotificationResult, INotificationComponentProps } from './models';
 import { Dialog } from './dialog';
@@ -41,10 +41,10 @@ function createNotification(NotificationComponent: FunctionComponent<INotificati
   };
 }
 
-export const Notifications: FunctionComponent<IProps> = ({
+export const Notifications = anuxUIFunctionComponent<IProps>('Notifications', ({
   id: hostId = Math.uniqueId(),
   children,
-}) => {
+}, ref) => {
   const currentHosts = useContext(NotificationsContext);
   const hostRef = useRef<HTMLElement>();
   const [{ notifications }, setState] = useState<IState>({
@@ -61,7 +61,7 @@ export const Notifications: FunctionComponent<IProps> = ({
   });
 
   return (
-    <CustomTag name="ui-notifications-host" className={styles.host}>
+    <CustomTag name="ui-notifications-host" ref={ref} className={styles.host}>
       <NotificationsContext.Provider value={{ ...currentHosts, [hostId]: notify, [CurrentHost]: notify }}>
         {children || null}
       </NotificationsContext.Provider>
@@ -70,6 +70,4 @@ export const Notifications: FunctionComponent<IProps> = ({
       </CustomTag>
     </CustomTag>
   );
-};
-
-addDisplayName(Notifications, 'Notifications');
+});

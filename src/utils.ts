@@ -1,3 +1,3 @@
-import { addDisplayName as utilsAddDisplayName } from 'anux-react-utils';
+import { anuxFunctionComponent } from 'anux-react-utils';
 
-export const addDisplayName: typeof utilsAddDisplayName = (component, name) => utilsAddDisplayName(component, `Anux-React-UI-${name}`);
+export const anuxUIFunctionComponent: typeof anuxFunctionComponent = (name, component) => anuxFunctionComponent(`Anux-React-UI-${name}`, component);

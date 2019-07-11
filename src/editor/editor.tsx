@@ -2,7 +2,7 @@ import { ReactElement, PropsWithChildren, useState, useEffect, useRef } from 're
 import { useBound, areShallowEqual, CustomTag } from 'anux-react-utils';
 import { IMap, PromiseMaybe } from 'anux-common';
 import { Notifications } from '../notifications/notifications';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { classNames } from '../styles';
 import { IValidationError } from './models';
 import { EditorContext } from './context';
@@ -21,13 +21,13 @@ interface IProps<T extends {}> {
   onCancel?(additionalParams?: IMap): PromiseMaybe;
 }
 
-export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => ReactElement<PropsWithChildren<IProps<T>>> = ({
+export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => ReactElement<PropsWithChildren<IProps<T>>> = anuxUIFunctionComponent('Editor', ({
   record,
   className,
   children,
   onSave,
   onCancel,
-}) => {
+}, ref) => {
   type T = typeof record;
   const notificationHostId = useRef(Math.uniqueId());
 
@@ -73,7 +73,7 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
   const canSave = isDirty && busyFields.length === 0 && validationErrors.length === 0;
 
   return (
-    <CustomTag name="anux-editor" className={classNames(styles.root, className)}>
+    <CustomTag name="anux-editor" ref={ref} className={classNames(styles.root, className)}>
       <Notifications id={notificationHostId.current}>
         <EditorContext.Provider value={{
           record, update, isDirty, canSave, notificationHostId: notificationHostId.current,
@@ -84,6 +84,4 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
       </Notifications>
     </CustomTag>
   );
-};
-
-addDisplayName(Editor, 'Editor');
+});

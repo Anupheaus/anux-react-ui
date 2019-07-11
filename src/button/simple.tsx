@@ -1,8 +1,8 @@
-import { FunctionComponent, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Button, LinearProgress } from '@material-ui/core';
 import { CustomTag } from 'anux-react-utils';
 import { classNames } from '../styles';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { ButtonAppearances, ButtonVariants, ButtonSizes, ButtonIconPositions } from './models';
 import { IconType, convertAppearanceToVariant } from './private.models';
 import styles from './styles';
@@ -20,7 +20,7 @@ interface IProps {
   onClick(): void;
 }
 
-export const SimpleButton: FunctionComponent<IProps> = ({
+export const SimpleButton = anuxUIFunctionComponent<IProps>('Button-Simple', ({
   icon,
   iconPosition,
   isWithinABadge,
@@ -58,6 +58,4 @@ export const SimpleButton: FunctionComponent<IProps> = ({
       {renderProgressInButton}
     </Button>
   );
-}
-
-addDisplayName(SimpleButton, 'Button_SimpleButton');
+});

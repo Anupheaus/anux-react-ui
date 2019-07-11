@@ -34,6 +34,11 @@ export default {
   toaster: {
 
     root: style({
+      ...position.absolute.full,
+      pointerEvents: 'none',
+    }),
+
+    snackbar: style({
       position: 'absolute',
       maxWidth: '90%',
       width: '100%',

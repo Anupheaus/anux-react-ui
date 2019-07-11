@@ -1,9 +1,8 @@
-import { FunctionComponent } from 'react';
 import { Badge } from '@material-ui/core';
-import { addDisplayName } from '../utils';
+import { anuxUIFunctionComponent } from '../utils';
 import { IHiddenBadgeProps, IBadgeProps } from './private.models';
 
-export const ButtonBadge: FunctionComponent<IBadgeProps> = ({
+export const ButtonBadge = anuxUIFunctionComponent<IBadgeProps>('Button-Badge', ({
   variant = 'primary',
   isVisible = true,
   max,
@@ -27,6 +26,4 @@ export const ButtonBadge: FunctionComponent<IBadgeProps> = ({
       {button}
     </Badge>
   );
-};
-
-addDisplayName(ButtonBadge, 'ButtonBadge');
+});
