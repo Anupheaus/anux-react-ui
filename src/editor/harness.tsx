@@ -52,7 +52,7 @@ const ReportRecord: FunctionComponent<IProps> = ({ record }) => {
 export const editorHarness = createHarness({ name: 'Editor' }, () => {
   const [data, setData] = useState<IRecord>({
     name: 'Tony',
-    emptyString: '',
+    emptyString: undefined,
     age: 38,
     sourceId: '123',
     invalidSourceId: '200',

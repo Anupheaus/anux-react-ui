@@ -50,7 +50,7 @@ export const TextField = anuxUIFunctionComponent<IProps>('Editor-Text-Field', ({
     <CustomTag name="anux-editor-text-field" ref={ref} className={classNames(styles.textField, className)}>
       <MUITextField
         label={label}
-        value={get}
+        value={get || ''}
         placeholder={hint}
         disabled={isReadOnly}
         onChange={handleChanged}
