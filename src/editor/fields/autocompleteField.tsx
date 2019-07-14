@@ -103,7 +103,7 @@ export const AutocompleteField: <T extends IRecord>(props: PropsWithChildren<IPr
           if (value !== matchedItemText) { setState(s => ({ ...s, value: matchedItemText })); }
           if (get !== matchedItem.id) { set(matchedItem); }
           return true;
-        } else {
+        } else if (query.text) {
           if (value !== query.text) { setState(s => ({ ...s, value: query.text })); }
           if (!is.empty(get)) { set(undefined); }
           return false;
@@ -164,7 +164,7 @@ export const AutocompleteField: <T extends IRecord>(props: PropsWithChildren<IPr
 
     useEffect(() => {
       if (is.empty(get)) { return; }
-      if (loadedItems && matchUsingQuery({ id })) { return; }
+      if (loadedItems && matchUsingQuery({ id: get })) { return; }
       fetch({ id: get }).catch(error => setState(s => ({ ...s, error })));
     }, [get]);
 
