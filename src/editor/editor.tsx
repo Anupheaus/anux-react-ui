@@ -1,4 +1,4 @@
-import { ReactElement, PropsWithChildren, useState, useEffect, useRef } from 'react';
+import { ReactElement, PropsWithChildren, useState, useEffect, useRef, useMemo } from 'react';
 import { useBound, areShallowEqual, CustomTag } from 'anux-react-utils';
 import { IMap, PromiseMaybe } from 'anux-common';
 import { Notifications } from '../notifications/notifications';
@@ -16,6 +16,7 @@ interface IEditorChildren<T extends {}> {
 interface IProps<T extends {}> {
   record: T;
   className?: string;
+  renderDependencies?: unknown[];
   children(props: IEditorChildren<T>): ReactElement;
   onSave?(record: T, additionalParams?: IMap): PromiseMaybe;
   onCancel?(additionalParams?: IMap): PromiseMaybe;
@@ -24,6 +25,7 @@ interface IProps<T extends {}> {
 export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => ReactElement<PropsWithChildren<IProps<T>>> = anuxUIFunctionComponent('Editor', ({
   record,
   className,
+  renderDependencies = [],
   children,
   onSave,
   onCancel,
@@ -55,7 +57,7 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
   const save = useBound(async (additionalParams?: IMap) => {
     if (!onSave) { throw new Error('This record has been requested to be saved, but no onSave handler has been provided.'); }
     if (!isDirty) { return; }
-    await onSave(mutatedRecord, additionalParams || {});
+    await onSave({ ...mutatedRecord }, additionalParams || {});
   });
 
   const setValidationErrorsFor = useBound((id: string, errors: IValidationError[]) => setState(innerState => ({
@@ -72,6 +74,8 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
 
   const canSave = isDirty && busyFields.length === 0 && validationErrors.length === 0;
 
+  const renderedChildren = useMemo(() => children({ record: mutatedRecord, update }), [mutatedRecord, ...renderDependencies]);
+
   return (
     <CustomTag name="anux-editor" ref={ref} className={classNames(styles.root, className)}>
       <Notifications id={notificationHostId.current}>
@@ -79,7 +83,7 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
           record, update, isDirty, canSave, notificationHostId: notificationHostId.current,
           validationErrors, busyFields, setValidationErrorsFor, setFieldBusyState, cancel, save
         }}>
-          {children({ record: mutatedRecord, update })}
+          {renderedChildren}
         </EditorContext.Provider>
       </Notifications>
     </CustomTag>
