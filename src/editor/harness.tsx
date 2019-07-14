@@ -1,5 +1,5 @@
 import { useBound, CustomTag } from 'anux-react-utils';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useState, useRef } from 'react';
 import { createHarness } from '../../tests/harness/createHarness';
 import styles from './harness.styles';
 import { EditorToolbar } from './toolbar';
@@ -59,6 +59,7 @@ export const editorHarness = createHarness({ name: 'Editor' }, () => {
     date: (new Date((new Date()).toUTCString())).valueOf(),
     switch: true,
   });
+  const refreshCountRef = useRef(0);
 
   const sources: ISource[] = [
     { id: '124', name: 'book' },
@@ -79,101 +80,105 @@ export const editorHarness = createHarness({ name: 'Editor' }, () => {
       record={data}
       onSave={handleOnSave}
     >
-      {({ record, update }) => (
-        <>
-          <TextField
-            label="Text Field"
-            get={record.name}
-            set={value => update({ ...record, name: value })}
-            isRequired
-          />
-          <TextField
-            label="Text Field (Read Only)"
-            get={record.name}
-          />
-          <TextField
-            get={record.emptyString}
-            set={value => update({ ...record, emptyString: value })}
-            hint="This is my hint!"
-          />
-          <TextField
-            label="Text Field (shrunken label)"
-            get={''}
-            applyShrunkenLabel
-          />
-          <NumberField
-            label="Number Field"
-            get={record.age}
-            set={age => update({ ...record, age })}
-            decimalPlaces={0}
-          />
-          <DropdownField<ISource>
-            label="Dropdown Field"
-            get={record.sourceId}
-            set={item => update({ ...record, sourceId: item.id })}
-            items={loadItems}
-          >
-            {({ name }) => (
-              <div>{name}</div>
-            )}
-          </DropdownField>
-          <DropdownField<ISource>
-            label="Invalid Dropdown Field"
-            get={record.invalidSourceId}
-            set={item => update({ ...record, invalidSourceId: item.id })}
-            items={loadItems}
-          >
-            {({ name }) => (
-              <div>{name}</div>
-            )}
-          </DropdownField>
-          <AutocompleteField<ISource>
-            label="Autocomplete Field"
-            get={record.sourceId}
-            set={item => update({ ...record, sourceId: item ? item.id : undefined })}
-            items={loadItems}
-            getTextFromItem={item => item.name}
-            isRequired={true}
-          >
-            {({ item: { name }, text }) => (
-              <div>{name} ({text})</div>
-            )}
-          </AutocompleteField>
-          <DateTimeField
-            label="Date Time Field"
-            get={record.date}
-            set={date => update({ ...record, date })}
-          />
-          <DateTimeField
-            label="Date Field"
-            mode={DateTimeModes.DateOnly}
-            get={record.date}
-            set={date => update({ ...record, date })}
-          />
-          <DateTimeField
-            label="Time Field"
-            mode={DateTimeModes.TimeOnly}
-            get={record.date}
-            set={date => update({ ...record, date })}
-          />
-          <ToggleField
-            label="Switch Field"
-            get={record.switch}
-            set={value => update({ ...record, switch: value })}
-          />
-          <ToggleField
-            label="Switch Field"
-            applyShrunkenLabel={true}
-            get={record.switch}
-            set={value => update({ ...record, switch: value })}
-          />
-          <EditorToolbar />
-          <CustomTag name="harness-reports" className={styles.reports.container}>
-            <ReportRecord record={data} />
-            <ReportRecord record={record} />
-          </CustomTag>
-        </>
-      )}
+      {({ record, update }) => {
+        refreshCountRef.current++;
+        return (
+          <>
+            <TextField
+              label="Text Field"
+              get={record.name}
+              set={value => update({ ...record, name: value })}
+              isRequired
+            />
+            <TextField
+              label="Text Field (Read Only)"
+              get={record.name}
+            />
+            <TextField
+              get={record.emptyString}
+              set={value => update({ ...record, emptyString: value })}
+              hint="This is my hint!"
+            />
+            <TextField
+              label="Text Field (shrunken label)"
+              get={''}
+              applyShrunkenLabel
+            />
+            <NumberField
+              label="Number Field"
+              get={record.age}
+              set={age => update({ ...record, age })}
+              decimalPlaces={0}
+            />
+            <DropdownField<ISource>
+              label="Dropdown Field"
+              get={record.sourceId}
+              set={item => update({ ...record, sourceId: item.id })}
+              items={loadItems}
+            >
+              {({ name }) => (
+                <div>{name}</div>
+              )}
+            </DropdownField>
+            <DropdownField<ISource>
+              label="Invalid Dropdown Field"
+              get={record.invalidSourceId}
+              set={item => update({ ...record, invalidSourceId: item.id })}
+              items={loadItems}
+            >
+              {({ name }) => (
+                <div>{name}</div>
+              )}
+            </DropdownField>
+            <AutocompleteField<ISource>
+              label="Autocomplete Field"
+              get={record.sourceId}
+              set={item => update({ ...record, sourceId: item ? item.id : undefined })}
+              items={loadItems}
+              getTextFromItem={item => item.name}
+              isRequired={true}
+            >
+              {({ item: { name }, text }) => (
+                <div>{name} ({text})</div>
+              )}
+            </AutocompleteField>
+            <DateTimeField
+              label="Date Time Field"
+              get={record.date}
+              set={date => update({ ...record, date })}
+            />
+            <DateTimeField
+              label="Date Field"
+              mode={DateTimeModes.DateOnly}
+              get={record.date}
+              set={date => update({ ...record, date })}
+            />
+            <DateTimeField
+              label="Time Field"
+              mode={DateTimeModes.TimeOnly}
+              get={record.date}
+              set={date => update({ ...record, date })}
+            />
+            <ToggleField
+              label="Switch Field"
+              get={record.switch}
+              set={value => update({ ...record, switch: value })}
+            />
+            <ToggleField
+              label="Switch Field"
+              applyShrunkenLabel={true}
+              get={record.switch}
+              set={value => update({ ...record, switch: value })}
+            />
+            <EditorToolbar />
+            <CustomTag name="harness-reports" className={styles.reports.container}>
+              <ReportRecord record={data} />
+              <ReportRecord record={record} />
+              <div className={styles.reports.recordCount}>Refresh Count: {refreshCountRef.current}</div>
+            </CustomTag>
+          </>
+        );
+      }}
     </Editor>
   );
 });

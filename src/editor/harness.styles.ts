@@ -19,7 +19,7 @@ export default {
     container: style({
       ...flex.content.stack,
       ...position.absolute,
-      top: '30px',
+      top: '10px',
       left: '410px',
       width: '250px',
     }),
@@ -44,6 +44,12 @@ export default {
           },
         },
       },
+    }),
+
+    recordCount: style({
+      ...position.absolute,
+      top: '340px',
+      left: '0px',
     }),
 
   },
