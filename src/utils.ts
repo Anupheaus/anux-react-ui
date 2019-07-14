@@ -1,3 +1,3 @@
-import { anuxFunctionComponent } from 'anux-react-utils';
+import { anuxPureFunctionComponent } from 'anux-react-utils';
 
-export const anuxUIFunctionComponent: typeof anuxFunctionComponent = (name, component) => anuxFunctionComponent(`Anux-React-UI-${name}`, component);
+export const anuxUIFunctionComponent: typeof anuxPureFunctionComponent = (name, component) => anuxPureFunctionComponent(`Anux-React-UI-${name}`, component);
