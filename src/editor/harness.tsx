@@ -69,7 +69,7 @@ export const editorHarness = createHarness({ name: 'Editor' }, () => {
 
   const handleOnSave = useBound(async (newRecord: IRecord) => {
     setData(newRecord);
-    await Promise.delay(1000);
+    await Promise.delay(2000);
   });
 
   const loadItems = useBound<() => Promise<ISource[]>>(() => new Promise(resolve => setTimeout(() => resolve(sources), 3000)));
