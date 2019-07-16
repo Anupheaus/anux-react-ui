@@ -6,7 +6,6 @@ export default {
   editor: style({
     margin: '30px',
     width: '350px',
-    padding: '5px',
     backgroundColor: '#eee',
     border: 'solid 1px #aaa',
     ...shadows.box.ambient(2),

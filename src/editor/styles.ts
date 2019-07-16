@@ -5,6 +5,11 @@ export default {
 
   root: style(flex.content.stack),
 
+  content: style({
+    ...flex.full.stack,
+    padding: '5px',
+  }),
+
   toolbar: {
 
     root: style({
