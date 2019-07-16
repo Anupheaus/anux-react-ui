@@ -16,7 +16,6 @@ interface IEditorChildren<T extends {}> {
 interface IProps<T extends {}> {
   record: T;
   className?: string;
-  renderDependencies?: unknown[];
   children(props: IEditorChildren<T>): ReactElement;
   onSave?(record: T, additionalParams?: IMap): PromiseMaybe;
   onCancel?(additionalParams?: IMap): PromiseMaybe;
@@ -25,7 +24,6 @@ interface IProps<T extends {}> {
 export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => ReactElement<PropsWithChildren<IProps<T>>> = anuxUIFunctionComponent('Editor', ({
   record,
   className,
-  renderDependencies = [],
   children,
   onSave,
   onCancel,
@@ -39,6 +37,12 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
     validationErrors: [] as IValidationError[],
     busyFields: [] as string[],
   });
+
+  const lastState = useRef(state);
+  const renderChildrenTrigger = useRef(Math.uniqueId());
+
+  const isStateUpdate = state !== lastState.current;
+  lastState.current = state;
 
   const { record: mutatedRecord, validationErrors, busyFields, isDirty } = state;
 
@@ -57,7 +61,7 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
   const save = useBound(async (additionalParams?: IMap) => {
     if (!onSave) { throw new Error('This record has been requested to be saved, but no onSave handler has been provided.'); }
     if (!isDirty) { return; }
-    await onSave({ ...mutatedRecord }, additionalParams || {});
+    await onSave(mutatedRecord, additionalParams || {});
   });
 
   const setValidationErrorsFor = useBound((id: string, errors: IValidationError[]) => setState(innerState => ({
@@ -74,7 +78,8 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
 
   const canSave = isDirty && busyFields.length === 0 && validationErrors.length === 0;
 
-  const renderedChildren = useMemo(() => children({ record: mutatedRecord, update }), [mutatedRecord, ...renderDependencies]);
+  if (!isStateUpdate) { renderChildrenTrigger.current = Math.uniqueId(); } // if the render is not caused by a state update then cause the children to be re-rendered
+  const renderedChildren = useMemo(() => children({ record: mutatedRecord, update }), [mutatedRecord, renderChildrenTrigger.current]);
 
   return (
     <CustomTag name="anux-editor" ref={ref} className={classNames(styles.root, className)}>
@@ -83,7 +88,9 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
           record, update, isDirty, canSave, notificationHostId: notificationHostId.current,
           validationErrors, busyFields, setValidationErrorsFor, setFieldBusyState, cancel, save
         }}>
-          {renderedChildren}
+          <CustomTag name="anux-editor-content" className={styles.content}>
+            {renderedChildren}
+          </CustomTag>
         </EditorContext.Provider>
       </Notifications>
     </CustomTag>
