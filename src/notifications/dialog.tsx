@@ -1,4 +1,4 @@
-import { useState, forwardRef, useMemo } from 'react';
+import { useState, forwardRef, useMemo, useLayoutEffect } from 'react';
 import { Dialog as MUIDialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Zoom, Button } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
 import { useActions, useOnUnmount, useTimeout, useBound } from 'anux-react-utils';
@@ -40,9 +40,11 @@ export const Dialog = anuxUIFunctionComponent<INotificationComponentProps>('Noti
 
   const renderButtons = () => buttons ? <DialogActions>{buttons(actions)}</DialogActions> : null;
 
-  if (autoHideAfterMilliseconds > 0) { useTimeout(actions.close, autoHideAfterMilliseconds); }
+  if (autoHideAfterMilliseconds > 0) { useTimeout(actions.close, autoHideAfterMilliseconds, { dependencies: [''] }); }
 
-  if (waitOn) { waitOn().then(actions.close, actions.close); }
+  useLayoutEffect(() => {
+    if (waitOn) { Promise.resolve(waitOn()).then(actions.close, actions.close); }
+  }, ['']);
 
   const handleBackdropClose = useBound(() => {
     if (isModal) { return; }

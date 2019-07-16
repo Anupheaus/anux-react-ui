@@ -35,14 +35,13 @@ export default {
 
     root: style({
       ...position.absolute.full,
-      pointerEvents: 'none',
+      pointerEvents: 'all',
     }),
 
     snackbar: style({
       position: 'absolute',
       maxWidth: '90%',
       width: '100%',
-      pointerEvents: 'all',
     }),
 
     content: (variant: NotificationVariants) => style({

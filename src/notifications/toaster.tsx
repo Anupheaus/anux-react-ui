@@ -1,4 +1,4 @@
-import { useState, forwardRef, useMemo, CSSProperties } from 'react';
+import { useState, forwardRef, useMemo, CSSProperties, useLayoutEffect } from 'react';
 import { Snackbar, SnackbarContent, Slide, IconButton, CircularProgress, Backdrop } from '@material-ui/core';
 import { TransitionProps } from '@material-ui/core/transitions';
 import CloseIcon from '@material-ui/icons/Close';
@@ -62,9 +62,11 @@ export const Toaster = anuxUIFunctionComponent<INotificationComponentProps>('Not
 
   const renderButtons = () => buttons ? buttons(actions) : null;
 
-  if (autoHideAfterMilliseconds > 0) { useTimeout(actions.close, autoHideAfterMilliseconds); }
+  if (autoHideAfterMilliseconds > 0) { useTimeout(actions.close, autoHideAfterMilliseconds, { dependencies: [''] }); }
 
-  if (waitOn) { waitOn().then(actions.close, actions.close); }
+  useLayoutEffect(() => {
+    if (waitOn) { Promise.resolve(waitOn()).then(actions.close, actions.close); }
+  }, ['']);
 
   useOnUnmount(actions.close);
 

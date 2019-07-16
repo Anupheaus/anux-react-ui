@@ -1,4 +1,5 @@
 import { ReactNode, MutableRefObject } from 'react';
+import { PromiseMaybe } from 'anux-common';
 
 export enum NotificationModes {
   Dialog,
@@ -39,7 +40,7 @@ export interface INotification {
   mode: NotificationModes;
   isModal?: boolean;
   variant?: NotificationVariants;
-  waitOn?(): Promise<void>;
+  waitOn?(): PromiseMaybe;
   buttons?(actions: INotificationActions): ReactNode;
 }
 
