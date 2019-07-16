@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { CustomTag, useBound } from 'anux-react-utils';
+import { PromiseMaybe } from 'anux-common';
 import { Button } from '../button';
 import { useNotifications } from '../notifications/useNotifications';
 import { INotification, NotificationModes, NotificationVariants } from '../notifications/models';
@@ -41,11 +42,27 @@ const noChangesToCancel = (): INotification => ({
   autoHideAfterMilliseconds: 4000,
 });
 
+const savingChanges = (waitOn: () => PromiseMaybe): INotification => ({
+  mode: NotificationModes.Toaster,
+  message: 'Your changes are being saved...',
+  variant: NotificationVariants.Pending,
+  isModal: true,
+  waitOn,
+});
+
 const changesSaved = (): INotification => ({
   mode: NotificationModes.Toaster,
   message: 'Your changes have been saved.',
   variant: NotificationVariants.Success,
   autoHideAfterMilliseconds: 3000,
+});
+
+const cancellingChanges = (waitOn: () => PromiseMaybe): INotification => ({
+  mode: NotificationModes.Toaster,
+  message: 'Your changes are being reverted...',
+  variant: NotificationVariants.Pending,
+  isModal: true,
+  waitOn,
 });
 
 const changesCancelled = (): INotification => ({
@@ -70,7 +87,7 @@ export const EditorToolbar = anuxUIFunctionComponent<IProps>('Editor-Toolbar', (
 
   const doCancel = useBound(async () => {
     if (!isDirty) { notify(noChangesToCancel(), notificationHostId); return; }
-    await cancel();
+    await notify(cancellingChanges(cancel)).untilClosed();
     notify(changesCancelled(), notificationHostId);
   });
 
@@ -78,7 +95,9 @@ export const EditorToolbar = anuxUIFunctionComponent<IProps>('Editor-Toolbar', (
     if (validationErrorCount > 0) { notify(tooManyErrorsToSave(validationErrorCount), notificationHostId); return; }
     if (busyFields.length > 0) { notify(tooBusyToSave(busyFields.length), notificationHostId); return; }
     if (!isDirty) { notify(noChangesToSave(), notificationHostId); return; }
-    await save();
+    const promise = save();
+    await notify(savingChanges(save)).untilClosed()
+    await promise;
     notify(changesSaved(), notificationHostId);
   });
 
