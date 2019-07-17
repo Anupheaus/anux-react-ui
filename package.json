@@ -16,8 +16,8 @@
     "dist"
   ],
   "dependencies": {
-    "anux-common": "^1.0.40",
-    "anux-react-utils": "^1.0.45",
+    "anux-common": "^1.0.41",
+    "anux-react-utils": "^1.0.46",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "@material-ui/core": "^4.2.0",

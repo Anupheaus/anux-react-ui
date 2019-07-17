@@ -637,10 +637,10 @@ ansi-styles@^3.2.0, ansi-styles@^3.2.1:
   dependencies:
     color-convert "^1.9.0"
 
-anux-common@^1.0.40:
-  version "1.0.40"
-  resolved "https://registry.yarnpkg.com/anux-common/-/anux-common-1.0.40.tgz#9a3aca3dca211fefedb10b91dd62d3f40b86e008"
-  integrity sha512-JrXUwdOcgs/qcZDQYPKLF4Q7FrGthN4BWjYmHG0kn4RhCUdfd0/9SzzpwvmFtLpxOZjeLQBDtUSJ28m/f1tvcA==
+anux-common@^1.0.41:
+  version "1.0.41"
+  resolved "https://registry.yarnpkg.com/anux-common/-/anux-common-1.0.41.tgz#a22aefdb33514d7163b9be9d0d25e339e2ccd8eb"
+  integrity sha512-WROWPqGRrXHHjvlPSb06J4OimVE5/hrmMldPtQYQETw56HsnvaBjU3nPZ8Xijy7GDtxgTsoKPBaaS2/zEw/RQQ==
   dependencies:
     "@types/datejs" "^0.0.30"
     "@types/numeral" "^0.0.25"
@@ -651,12 +651,12 @@ anux-common@^1.0.40:
     numeral "^2.0.6"
     uuid "^3.3.2"
 
-anux-react-utils@^1.0.45:
-  version "1.0.45"
-  resolved "https://registry.yarnpkg.com/anux-react-utils/-/anux-react-utils-1.0.45.tgz#7481c2e73e41c8e97f7d315be583cc5811f73b2f"
-  integrity sha512-tW+0h9usb/c8DmqgA0dc0ypbryYt6YkJbqwiK+V+zJOBVSvU/GS3Xn5UTc4t2oOrqLRrlVmBnP1ybYVJwOYQ4A==
+anux-react-utils@^1.0.46:
+  version "1.0.46"
+  resolved "https://registry.yarnpkg.com/anux-react-utils/-/anux-react-utils-1.0.46.tgz#5ea4867ae8f70caea3aee436c85e037c5ac90708"
+  integrity sha512-aSbX1ZNu3guWJDQhJDbKacbC8mPyQS05lBJcu7uvAF4BpaD1Fi82VqTH45g+Q4OQZeoT1ME7C6AfTXONu+IXyA==
   dependencies:
-    anux-common "^1.0.40"
+    anux-common "^1.0.41"
     axios "0.18.0"
     react "^16.8.6"
     react-dom "^16.8.6"
