@@ -16,6 +16,7 @@ interface IEditorChildren<T extends {}> {
 interface IProps<T extends {}> {
   record: T;
   className?: string;
+  contentClassName?: string;
   useNotificationsId?: string;
   children(props: IEditorChildren<T>): ReactElement;
   onSave?(record: T, additionalParams?: IMap): PromiseMaybe;
@@ -25,6 +26,7 @@ interface IProps<T extends {}> {
 export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => ReactElement<PropsWithChildren<IProps<T>>> = anuxUIFunctionComponent('Editor', ({
   record,
   className,
+  contentClassName,
   useNotificationsId,
   children,
   onSave,
@@ -94,7 +96,7 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
           record, update, isDirty, canSave, notificationHostId,
           validationErrors, busyFields, setValidationErrorsFor, setFieldBusyState, cancel, save
         }}>
-          <CustomTag name="anux-editor-content" className={styles.content}>
+          <CustomTag name="anux-editor-content" className={classNames(styles.content, contentClassName)}>
             {renderedChildren}
           </CustomTag>
         </EditorContext.Provider>
