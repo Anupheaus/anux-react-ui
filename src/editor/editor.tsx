@@ -1,4 +1,4 @@
-import { ReactElement, PropsWithChildren, useState, useEffect, useRef, useMemo } from 'react';
+import { ReactElement, PropsWithChildren, useState, useEffect, useRef, useMemo, ReactNode } from 'react';
 import { useBound, areShallowEqual, CustomTag } from 'anux-react-utils';
 import { IMap, PromiseMaybe } from 'anux-common';
 import { Notifications } from '../notifications/notifications';
@@ -16,6 +16,7 @@ interface IEditorChildren<T extends {}> {
 interface IProps<T extends {}> {
   record: T;
   className?: string;
+  useNotificationsId?: string;
   children(props: IEditorChildren<T>): ReactElement;
   onSave?(record: T, additionalParams?: IMap): PromiseMaybe;
   onCancel?(additionalParams?: IMap): PromiseMaybe;
@@ -24,12 +25,13 @@ interface IProps<T extends {}> {
 export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => ReactElement<PropsWithChildren<IProps<T>>> = anuxUIFunctionComponent('Editor', ({
   record,
   className,
+  useNotificationsId,
   children,
   onSave,
   onCancel,
 }, ref) => {
   type T = typeof record;
-  const notificationHostId = useRef(Math.uniqueId());
+  const notificationIdRef = useRef(Math.uniqueId());
 
   const [state, setState] = useState({
     record,
@@ -81,18 +83,22 @@ export const Editor: <T extends {}>(props: PropsWithChildren<IProps<T>>) => Reac
   if (!isStateUpdate) { renderChildrenTrigger.current = Math.uniqueId(); } // if the render is not caused by a state update then cause the children to be re-rendered
   const renderedChildren = useMemo(() => children({ record: mutatedRecord, update }), [mutatedRecord, renderChildrenTrigger.current]);
 
+  const wrapInNotifications = (innerChildren: (notificationsId: string) => ReactNode) => useNotificationsId ? innerChildren(useNotificationsId) : (
+    <Notifications id={notificationIdRef.current}>{innerChildren(notificationIdRef.current)}</Notifications>
+  );
+
   return (
     <CustomTag name="anux-editor" ref={ref} className={classNames(styles.root, className)}>
-      <Notifications id={notificationHostId.current}>
+      {wrapInNotifications(notificationHostId => (
         <EditorContext.Provider value={{
-          record, update, isDirty, canSave, notificationHostId: notificationHostId.current,
+          record, update, isDirty, canSave, notificationHostId,
           validationErrors, busyFields, setValidationErrorsFor, setFieldBusyState, cancel, save
         }}>
           <CustomTag name="anux-editor-content" className={styles.content}>
             {renderedChildren}
           </CustomTag>
         </EditorContext.Provider>
-      </Notifications>
+      ))}
     </CustomTag>
   );
 });
